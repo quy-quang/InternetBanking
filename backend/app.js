@@ -7,18 +7,17 @@ var app = express();
 
 
 
-	
+var userLoginCtrl = require('./user/userLoginController')
+var verifyAccessToken = require('./user/Repo/authRepo').verifyAccessToken;
+var userInformationCtrl = require('./user/userInformationController')
+
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/', (req, res) => {
-	res.json({
-		msg:"hello world"
-	})
-})
-
+app.use('/userLogin', userLoginCtrl);
+app.use('/userInformation', userInformationCtrl);
 
 
 var port = 3000;
