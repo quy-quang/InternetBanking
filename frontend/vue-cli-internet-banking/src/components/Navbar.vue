@@ -26,16 +26,16 @@
           <b-dropdown-item href="#">EN</b-dropdown-item>
           <b-dropdown-item href="#">VI</b-dropdown-item>
         </b-nav-item-dropdown>
-        <template v-if="user.name !== null">
+        <template v-if="user !== null">
           <b-nav-item-dropdown v-bind:text="user.name" right>
             <b-dropdown-item href="#" v-for="item in optionMenu" :key="item.title"
             :to="item.link">{{item.title}}</b-dropdown-item>
-            <b-dropdown-item href="#">Logout</b-dropdown-item>
+            <b-dropdown-item href="#" @click.prevent="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </template>
         <template v-else>
             <b-nav-item router
-            :to="LoginInMenu[0].link">LoginInMenu[0].title</b-nav-item>
+            :to="LoginInMenu[0].link">{{LoginInMenu[0].title}}</b-nav-item>
         </template>
       </b-navbar-nav>
     </b-collapse>
@@ -77,10 +77,16 @@ export default {
   },
   computed: {
     typeMenu () {
-      return this.$store.getters.typeUser
+      return this.$store.state.type
     },
     user () {
-      return this.$store.getters.currentUser
+      return this.$store.state.currentUser
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.commit('logout')
+      this.$router.push('/login')
     }
   },
   props: []

@@ -3,6 +3,12 @@ import Vuex from 'vuex'
 import { getLocalUser } from './helper/auth'
 Vue.use(Vuex)
 const user = getLocalUser()
+var type = 0
+if (!user) {
+  type = 0
+} else {
+  type = user.type
+}
 
 export default new Vuex.Store({
   state: {
@@ -10,7 +16,7 @@ export default new Vuex.Store({
     isLoggedIn: !!user,
     loading: false,
     auth_error: null,
-    typeUser: user.type,
+    type: type,
     customer: []
   },
   getters: {
@@ -27,7 +33,7 @@ export default new Vuex.Store({
       return state.customer
     },
     typeUser (state) {
-      return state.typeUser
+      return state.type
     }
   },
   mutations: {
@@ -39,13 +45,13 @@ export default new Vuex.Store({
       state.auth_error = null
       state.isLoggedIn = true
       state.loading = false
-      state.typeUser = state.currentUser.type
       state.currentUser = Object.assign({}, payload.user,
         {
           access_token: payload.access_token,
           refresh_token: payload.refresh_token
         })
       localStorage.setItem('user', JSON.stringify(state.currentUser))
+      state.type = state.currentUser.type
     },
     loginFailed (state, payload) {
       state.loadinng = false
