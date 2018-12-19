@@ -48,10 +48,10 @@ export default {
         { icon: 'person', title: 'Login', link: '/login' },
         { icon: 'face', title: 'List Bank Account', link: '/user/listbankaccount' },
         { icon: 'lock_open', title: 'Create User', link: '/employee/createuser' },
-        { icon: 'lock_open', title: 'Create Bank Account', link: '/emplyee/createbankaccount' },
+        { icon: 'lock_open', title: 'Create Bank Account', link: '/employee/createbankaccount' },
         { icon: 'lock_open', title: 'Add Fund', link: '/employee/addfund' },
         { icon: 'lock_open', title: 'Fund Detail', link: '/ceo/funddetail' },
-        { icon: 'home', title: 'Home', link: '/home' },
+        { icon: 'home', title: 'Home', link: '/' },
         { icon: 'person', title: 'About', link: '/about' }
       ]
     }

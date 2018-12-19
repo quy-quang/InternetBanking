@@ -35,42 +35,66 @@ export default new Router({
     {
       path: '/user/listbankaccount',
       name: 'listbankaccount',
-      component: ListBankAccount
+      component: ListBankAccount,
+      meta: {
+        requiresUserAuth: true
+      }
     },
     {
       path: '/user/historyaccount',
       name: 'historyaccount',
-      component: HistoryAccount
+      component: HistoryAccount,
+      meta: {
+        requiresUserAuth: true
+      }
     },
     {
       path: '/user/closeaccount',
       name: 'closeaccount',
-      component: CloseAccount
+      component: CloseAccount,
+      meta: {
+        requiresUserAuth: true
+      }
     },
     {
       path: '/user/accountdetail',
       name: 'accountdetail',
-      component: AccountDetail
+      component: AccountDetail,
+      meta: {
+        requiresUserAuth: true
+      }
     },
     {
       path: '/employee/createuser',
       name: 'createuser',
-      component: CreateUser
+      component: CreateUser,
+      meta: {
+        requiresEmployeeAuth: true
+      }
     },
     {
       path: '/employee/createbankaccount',
       name: 'createbankaccount',
-      component: CreateBankAccount
+      component: CreateBankAccount,
+      meta: {
+        requiresEmployeeAuth: true
+      }
     },
     {
       path: '/employee/addfund',
       name: 'addfund',
-      component: AddFund
+      component: AddFund,
+      meta: {
+        requiresEmployeeAuth: true
+      }
     },
     {
       path: '/ceo/FundDetail',
       name: 'funddetail',
-      component: FundDetail
+      component: FundDetail,
+      meta: {
+        requiresCEOAuth: true
+      }
     }
   ]
 })
