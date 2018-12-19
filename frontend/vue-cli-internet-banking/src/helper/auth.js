@@ -3,7 +3,7 @@ import axios from 'axios'
 export function login (credentials) {
     console.log(credentials)
     return new Promise((resolve, reject) => {
-        axios.post('http://dev.api.com/login', credentials)
+        axios.post('http://localhost:3000/userLogin/login', credentials)
             .then(response => {
                 resolve(response.data)
             })

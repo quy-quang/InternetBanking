@@ -31,6 +31,11 @@ router.beforeEach((to, from, next) => {
   } else if ((requiresUserAuth && currentUser.type !== 1) ||
       (requiresEmployeeAuth && currentUser.type !== 2) ||
       (requiresCEOAuth && currentUser.type !== 3)) {
+    next('/login')
+  } else if (to.path === '/login' && currentUser) {
+    next('/')
+  } else {
+    next()
   }
 })
 

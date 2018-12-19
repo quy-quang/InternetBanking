@@ -9,7 +9,7 @@
               <label for="userName"></label>
               <input
                 type="text"
-                v-model="form.userName"
+                v-model="form.username"
                 class="form-control"
                 placeholder="User Name"
               >
@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       form: {
-        userName: '',
+        username: '',
         password: ''
       },
       error: null

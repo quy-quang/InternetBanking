@@ -1,37 +1,42 @@
 <template>
   <b-navbar toggleable="md" type="dark" variant="dark">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
     <b-navbar-brand href="#">NavBar</b-navbar-brand>
-
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <b-nav-item href="#" v-for="item in menuItems" :key="item.title" router
+        <b-nav-item href="#" v-for="item in mainMenu" :key="item.title" router
+          :to="item.link" exact>{{item.title}}</b-nav-item>
+        <template v-if="typeMenu === 1">
+          <b-nav-item href="#" v-for="item in userMenu" :key="item.title" router
           :to="item.link">{{item.title}}</b-nav-item>
+        </template>
+        <template v-if="typeMenu === 2">
+          <b-nav-item href="#" v-for="item in employeeMenu" :key="item.title" router
+          :to="item.link">{{item.title}}</b-nav-item>
+        </template>
+        <template v-if="typeMenu === 3">
+          <b-nav-item href="#" v-for="item in ceoMenu" :key="item.title" router
+          :to="item.link">{{item.title}}</b-nav-item>
+        </template>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-        </b-nav-form>
-
         <b-nav-item-dropdown text="Lang" right>
           <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">RU</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
+          <b-dropdown-item href="#">VI</b-dropdown-item>
         </b-nav-item-dropdown>
-
-        <b-nav-item-dropdown right>
-          <!-- Using button-content slot -->
-          <template slot="button-content">
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Signout</b-dropdown-item>
-        </b-nav-item-dropdown>
+        <template v-if="user.name !== null">
+          <b-nav-item-dropdown v-bind:text="user.name" right>
+            <b-dropdown-item href="#" v-for="item in optionMenu" :key="item.title"
+            :to="item.link">{{item.title}}</b-dropdown-item>
+            <b-dropdown-item href="#">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </template>
+        <template v-else>
+            <b-nav-item router
+            :to="LoginInMenu[0].link">LoginInMenu[0].title</b-nav-item>
+        </template>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -44,16 +49,38 @@ export default {
   data () {
     return {
       sideNav: false,
-      menuItems: [
-        { icon: 'person', title: 'Login', link: '/login' },
-        { icon: 'face', title: 'List Bank Account', link: '/user/listbankaccount' },
-        { icon: 'lock_open', title: 'Create User', link: '/employee/createuser' },
-        { icon: 'lock_open', title: 'Create Bank Account', link: '/employee/createbankaccount' },
-        { icon: 'lock_open', title: 'Add Fund', link: '/employee/addfund' },
-        { icon: 'lock_open', title: 'Fund Detail', link: '/ceo/funddetail' },
+      mainMenu: [
         { icon: 'home', title: 'Home', link: '/' },
         { icon: 'person', title: 'About', link: '/about' }
+      ],
+      userMenu: [
+        { icon: 'face', title: 'List Bank Account', link: '/user/listbankaccount' }
+      ],
+      employeeMenu: [
+        { icon: 'lock_open', title: 'Create User', link: '/employee/createuser' },
+        { icon: 'lock_open', title: 'Create Bank Account', link: '/employee/createbankaccount' },
+        { icon: 'lock_open', title: 'Add Fund', link: '/employee/addfund' }
+      ],
+      ceoMenu: [
+        { icon: 'lock_open', title: 'Fund Detail', link: '/ceo/funddetail' }
+      ],
+      LoginInMenu: [
+        { icon: 'person', title: 'Login', link: '/login' }
+      ],
+      LoginOutMenu: [
+        { icon: 'person', title: 'Logout', link: '/logout' }
+      ],
+      optionMenu: [
+        { icon: 'person', title: 'Profile', link: '/profile' }
       ]
+    }
+  },
+  computed: {
+    typeMenu () {
+      return this.$store.getters.typeUser
+    },
+    user () {
+      return this.$store.getters.currentUser
     }
   },
   props: []

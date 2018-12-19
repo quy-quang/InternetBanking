@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isLoggedIn: !!user,
     loading: false,
     auth_error: null,
+    typeUser: user.type,
     customer: []
   },
   getters: {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     customer (state) {
       return state.customer
+    },
+    typeUser (state) {
+      return state.typeUser
     }
   },
   mutations: {
@@ -35,6 +39,7 @@ export default new Vuex.Store({
       state.auth_error = null
       state.isLoggedIn = true
       state.loading = false
+      state.typeUser = state.currentUser.type
       state.currentUser = Object.assign({}, payload.user,
         {
           access_token: payload.access_token,
@@ -50,6 +55,7 @@ export default new Vuex.Store({
       localStorage.removeItem('user')
       state.isLoggedIn = false
       state.currentUser = null
+      state.type = 0
     }
   },
   actions: {
