@@ -1,0 +1,27 @@
+{
+  "user": [
+    {
+      "username": "...",
+      "password": "...",
+      "name": "...",
+      "email": "...",
+      "type": "...",
+      "listAccount": [
+        "123",
+        "456"
+      ]
+    },
+    {
+      "username": "quyquang",
+      "password": "202cb962ac59075b964b07152d234b70",
+      "name": "Nguyen Phuoc Quy Quang",
+      "email": "quyquang2421997@gmail.com",
+      "type": 1,
+      "listAccount": [
+        "123",
+        "456"
+      ],
+      "userId": "oddkTDlh1"
+    }
+  ]
+}
