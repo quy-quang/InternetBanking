@@ -11,6 +11,8 @@ import AccountDetail from './views/user/AccountDetail.vue'
 import CloseAccount from './views/user/CloseAccount.vue'
 import HistoryAccount from './views/user/HistoryAccount.vue'
 import ListBankAccount from './views/user/ListBankAccount.vue'
+import Profile from './views/Profile.vue'
+import User from './views/user/User.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -33,36 +35,38 @@ export default new Router({
       component: Login
     },
     {
-      path: '/user/listbankaccount',
-      name: 'listbankaccount',
-      component: ListBankAccount,
-      meta: {
-        requiresUserAuth: true
-      }
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     },
     {
-      path: '/user/historyaccount',
-      name: 'historyaccount',
-      component: HistoryAccount,
+      path: '/user',
+      component: User,
       meta: {
         requiresUserAuth: true
-      }
-    },
-    {
-      path: '/user/closeaccount',
-      name: 'closeaccount',
-      component: CloseAccount,
-      meta: {
-        requiresUserAuth: true
-      }
-    },
-    {
-      path: '/user/accountdetail',
-      name: 'accountdetail',
-      component: AccountDetail,
-      meta: {
-        requiresUserAuth: true
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'ListBankAccount',
+          component: ListBankAccount
+        },
+        {
+          path: 'historyaccount',
+          name: 'HistoryAccount',
+          component: HistoryAccount
+        },
+        {
+          path: 'closeaccount',
+          name: 'CloseAccount',
+          component: CloseAccount
+        },
+        {
+          path: 'accountdetail/:id',
+          name: 'AccountDetail',
+          component: AccountDetail
+        }
+      ]
     },
     {
       path: '/employee/createuser',

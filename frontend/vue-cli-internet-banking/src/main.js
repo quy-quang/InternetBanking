@@ -18,14 +18,6 @@ router.beforeEach((to, from, next) => {
   const requiresEmployeeAuth = to.matched.some(record => record.meta.requiresEmployeeAuth)
   const requiresCEOAuth = to.matched.some(record => record.meta.requiresCEOAuth)
   const currentUser = store.state.currentUser
-
-  // if (requiresAuth && !currentUser) {
-  //   next('/login')
-  // } else if (to.path === '/login' && currentUser) {
-  //   next('/')
-  // } else {
-  //   next()
-  // }
   if (!currentUser && (requiresCEOAuth || requiresEmployeeAuth || requiresUserAuth)) {
     next('/login')
   } else if ((requiresUserAuth && currentUser.type !== 1) ||
@@ -36,6 +28,13 @@ router.beforeEach((to, from, next) => {
     next('/')
   } else {
     next()
+  }
+})
+
+Axios.interceptors.response.use(null, (error) => {
+  if (error.response.status === 401) {
+    store.commit('logout')
+    router.push('/login')
   }
 })
 

@@ -17,7 +17,7 @@ export default new Vuex.Store({
     loading: false,
     auth_error: null,
     type: type,
-    customer: []
+    listAccount: []
   },
   getters: {
     isLoading (state) {
@@ -29,9 +29,6 @@ export default new Vuex.Store({
     authError (state) {
       return state.auth_error
     },
-    customer (state) {
-      return state.customer
-    },
     typeUser (state) {
       return state.type
     }
@@ -40,6 +37,9 @@ export default new Vuex.Store({
     login (state) {
       state.loading = true
       state.auth_error = null
+    },
+    loading (state) {
+      state.loading = true
     },
     loginSuccess (state, payload) {
       state.auth_error = null
@@ -62,11 +62,19 @@ export default new Vuex.Store({
       state.isLoggedIn = false
       state.currentUser = null
       state.type = 0
+    },
+    getListSuccess (state, payload) {
+      state.listAccount = payload.accountList
+      state.loading = false
     }
+
   },
   actions: {
     login (context) {
       context.commit('login')
+    },
+    loading (context) {
+      context.commit('loading')
     }
   }
 })
