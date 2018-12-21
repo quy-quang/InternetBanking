@@ -8,7 +8,7 @@ var low = require('lowdb'),
 const shortid = require('shortid');
 
 
-var userAdapter = new fileSync('./userDB.json');
+var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
 const 	OFFILINE = 0,
@@ -66,32 +66,22 @@ router.post('/login', (req, res) => {
 	}
 })
 
-router.post('/getAccessTokenFromRefreshToken', (req, res) => {
-	var refreshTokenAdapter = new fileSync('./refreshTokenDB.json');
-    var refreshTokenDB = low(refreshTokenAdapter);
-	var refreshToken = req.body.refreshToken;
-	// console.log(refreshToken);
-	var userId = refreshTokenDB.get('refreshTokenList').find({"refreshToken":refreshToken}).value().userId;
-	// console.log(userId);
+router.post('/getAccountList', (req, res) => {
+	// {
+	// 	"userId":
+	// }
+	var userId = req.body.userId;
 
-	if (userId == undefined){
-		res.statusCode = 403;
-		res.json({
-			msg: "uncorrect refreshToken"
-		})
-	}
-	else{
-		var userEntity = userDB.get('user').find({"userId": userId}).value();
-		if (userEntity != undefined){
-			res.statusCode = 200;
-			var acToken = authRepo.generationAccessToken(userEntity);
-			res.json({
-				user: userEntity,
-				access_token : acToken,
-			})
-		}
-	}
-	
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+
+	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
+
+
+	res.statusCode = 201;
+	res.json({accountList});
 })
 
 module.exports = router;

@@ -22,6 +22,24 @@
         "456"
       ],
       "userId": "oddkTDlh1"
+    },
+    {
+      "username": "quyquang",
+      "password": "202cb962ac59075b964b07152d234b70",
+      "name": "Nguyen Phuoc Quy Quang",
+      "email": "quyquang2421997@gmail.com",
+      "type": 1,
+      "listAccount": [],
+      "userId": "3lOdRqiod"
+    },
+    {
+      "username": "caobadong",
+      "password": "202cb962ac59075b964b07152d234b70",
+      "name": "Cao Ba Dong",
+      "email": "dongcb@gmail.com",
+      "type": 1,
+      "listAccount": [],
+      "userId": "ulp9d6qYV"
     }
   ]
 }

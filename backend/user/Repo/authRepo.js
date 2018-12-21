@@ -53,7 +53,7 @@ exports.generateRefreshToken = () => {
 }
 
 exports.updateRefreshToken = (userId, rfToken) => {
-    var refreshTokenAdapter = new fileSync('./refreshTokenDB.json');
+    var refreshTokenAdapter = new fileSync('./data/refreshTokenDB.json');
     var refreshTokenDB = low(refreshTokenAdapter);
     var refreshTokenObject = refreshTokenDB.get('refreshTokenList').find({"driverId":userId}).value();
     console.log(refreshTokenDB.get('refreshTokenList').value())

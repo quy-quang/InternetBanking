@@ -1,0 +1,14 @@
+{
+  "bankAccountList": [
+    {
+      "bankAccountId": "123",
+      "remain": 147500,
+      "bankAccountName": "Doan Van Hau"
+    },
+    {
+      "bankAccountId": "456",
+      "remain": 102500,
+      "bankAccountName": "Nguyen Quang Hai"
+    }
+  ]
+}
