@@ -2,6 +2,7 @@ var express = require('express')
 
 var router = express.Router();
 var authRepo = require('./Repo/authRepo')
+var transactionRepo = require('../transaction/Repo/transactionRepo');
 var md5 = require('md5')
 var low = require('lowdb'),
 	fileSync = require('lowdb/adapters/FileSync')
@@ -82,6 +83,39 @@ router.post('/getAccountList', (req, res) => {
 
 	res.statusCode = 201;
 	res.json({accountList});
+})
+
+router.post('/getHistory', (req, res) => {
+
+	// {
+	// 	userId:"",
+	// 	bankAccountId:""
+	// }
+	var userId = req.body.userId;
+	var bankAccountId = req.body.bankAccountId;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+
+	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
+
+	if (accountList.indexOf(bankAccountId) >= 0){
+		res.statusCode = 200;
+		//get list of transaction related to bankAccountId
+
+		res.json({
+			"relatedTransaction":transactionRepo.getRelatedTransaction(bankAccountId)
+			})
+	}
+	else {
+		res.statusCode = 500;
+		res.json({
+			msg:"User not found or not found bank account id in user"
+		})
+	}
+
+
 })
 
 module.exports = router;

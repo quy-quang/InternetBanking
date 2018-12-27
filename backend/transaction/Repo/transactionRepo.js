@@ -14,3 +14,14 @@ exports.addTransaction = (transactionEntity) => {
 	transactionEntity["transactionId"] = shortid.generate();
 	transactionDB.get('transaction').push(transactionEntity).write();
 }
+
+exports.getRelatedTransaction =(bankAccountId) => {
+	//list ra nhung transaction co tk gui va tk nhan la bankAccountId
+	var transactionAdapter = new fileSync('./data/transactionDB.json');
+	var transactionDB = low(transactionAdapter);
+    var listRelatedTransaction = 
+    	transactionDB.get('transaction').filter(
+    		trans => trans.sendAcc == bankAccountId || trans.recAcc == bankAccountId).value();
+    return listRelatedTransaction
+
+}
