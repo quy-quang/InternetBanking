@@ -34,6 +34,13 @@
       "message": "nhan tien ne",
       "amount": 500,
       "transactionId": "KWRJfyc__"
+    },
+    {
+      "sendAcc": "123",
+      "recAcc": "456",
+      "message": "transfer balance for account deleted",
+      "amount": 147500,
+      "transactionId": "XBw-E_FDD"
     }
   ]
 }

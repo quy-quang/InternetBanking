@@ -2,6 +2,7 @@ var express = require('express')
 
 var router = express.Router();
 var authRepo = require('./Repo/authRepo')
+var accountRepo = require('../account/Repo/accountRepo')
 var transactionRepo = require('../transaction/Repo/transactionRepo');
 var md5 = require('md5')
 var low = require('lowdb'),
@@ -114,8 +115,104 @@ router.post('/getHistory', (req, res) => {
 			msg:"User not found or not found bank account id in user"
 		})
 	}
+})
+
+router.post('/transferBalance', (req, res) => {
+	// {
+	// 	"userId":"",
+	// 	"delAcc":"",
+	// 	"recAcc":""
+	// }
+	var userId = req.body.userId;
+	var delAcc = req.body.delAcc;
+	var recAcc = req.body.recAcc;
 
 
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+
+	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
+	if (accountList.indexOf(delAcc) >= 0 && accountList.indexOf(recAcc) >= 0){
+		var delRemain = accountRepo.getRemain(delAcc)  
+		//thuc hien chuyen tien con lai
+		if ( delRemain >= 50000){
+			
+			var transactionEntity = {
+				"sendAcc": delAcc,
+				"recAcc": recAcc,
+				"message": "transfer balance for account deleted",
+				"amount": delRemain
+			}
+			accountRepo.addRemain(transactionEntity.recAcc, transactionEntity.amount)
+			accountRepo.addRemain(transactionEntity.sendAcc, -transactionEntity.amount)
+
+			//add vao database transactionDB
+
+			transactionRepo.addTransaction(transactionEntity)
+
+			res.statusCode = 200;
+			res.json({
+			msg: 'transfer finished'
+			})
+		}
+		else {
+			res.statusCode = 500;
+			res.json({
+				msg:"Your remain money is under 50000"
+		})	
+		}
+	}
+	else {
+		res.statusCode = 500;
+		res.json({
+			msg:"Wrong bank account"
+		})
+	}
+
+
+})
+
+router.post('/deleteAccount', (req, res) => {
+	// {
+	// 	userId:"",
+	// 	bankAccountId:""
+	// }
+	var userId = req.body.userId;
+	var bankAccountId = req.body.bankAccountId;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+
+	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
+
+	if (accountList.indexOf(bankAccountId) >= 0){
+
+		var event = userDB.get('user').find({ "userId": userId })
+		.get("listAccount").remove( acc => acc == bankAccountId).write();
+
+		if (event){
+			res.statusCode = 200;
+
+			res.json({
+				"msg": "deleted"
+				})
+		}
+		else {
+			res.statusCode = 404;
+
+			res.json({
+				"msg": "cannot delete account"
+				})
+		}
+	}
+	else {
+		res.statusCode = 500;
+		res.json({
+			msg:"User not found or not found bank account id in user"
+		})
+	}
 })
 
 module.exports = router;
