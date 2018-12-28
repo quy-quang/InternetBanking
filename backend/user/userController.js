@@ -86,6 +86,25 @@ router.post('/getAccountList', (req, res) => {
 	res.json({accountList});
 })
 
+router.post('/getAccountDetail', (req, res) => {
+	// {
+	// 	"userId":
+	// }
+	var userId = req.body.userId;// bo sung them check account number in account id.
+	var accountNumber = req.body.accountNumber;
+
+
+	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankaccountAdapter);
+
+
+	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+
+
+	res.statusCode = 201;
+	res.json({AccountDetail});
+})
+
 router.post('/getHistory', (req, res) => {
 
 	// {

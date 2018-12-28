@@ -1,9 +1,8 @@
 <template>
-  <tr>
     <table class="table">
       <thead>
-        <th>Name</th>
-        <th>SKT</th>
+        <th>Index</th>
+        <th>Account Number</th>
         <th>Actions</th>
       </thead>
       <tbody>
@@ -18,14 +17,13 @@
             <td>{{account}}</td>
             <td>
               <button class="btn btn-info">
-                <router-link :to="'user/accountDetail/' + account" v-bind:style="{color: 'white'}">More Detail</router-link>
+                <router-link :to="{name: 'AccountDetail', params: {id: account}}" v-bind:style="{color: 'white'}">More Detail</router-link>
               </button>
             </td>
           </tr>
         </template>
       </tbody>
     </table>
-  </tr>
 </template>
 
 <script>

@@ -17,7 +17,8 @@ export default new Vuex.Store({
     loading: false,
     auth_error: null,
     type: type,
-    listAccount: []
+    listAccount: [],
+    currentAccount: null
   },
   getters: {
     isLoading (state) {
@@ -66,8 +67,11 @@ export default new Vuex.Store({
     getListSuccess (state, payload) {
       state.listAccount = payload.accountList
       state.loading = false
+    },
+    getAccountDetail (state, payload) {
+      state.currentAccount = payload.AccountDetail
+      state.loading = false
     }
-
   },
   actions: {
     login (context) {
