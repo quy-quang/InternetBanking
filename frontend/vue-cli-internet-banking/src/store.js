@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getLocalUser } from './helper/auth'
+import { getLocalAccount, getLocalUser } from './helper/auth'
+import { getAccountDetail } from './helper/user'
 Vue.use(Vuex)
 const user = getLocalUser()
 var type = 0
@@ -9,6 +10,7 @@ if (!user) {
 } else {
   type = user.type
 }
+const account = getLocalAccount()
 
 export default new Vuex.Store({
   state: {
@@ -18,7 +20,7 @@ export default new Vuex.Store({
     auth_error: null,
     type: type,
     listAccount: [],
-    currentAccount: null
+    currentAccount: account
   },
   getters: {
     isLoading (state) {
@@ -70,6 +72,7 @@ export default new Vuex.Store({
     },
     getAccountDetail (state, payload) {
       state.currentAccount = payload.AccountDetail
+      localStorage.setItem('account', JSON.stringify(state.currentAccount))
       state.loading = false
     }
   },
@@ -79,6 +82,15 @@ export default new Vuex.Store({
     },
     loading (context) {
       context.commit('loading')
+    },
+    loadAccountDetail (context, payload) {
+      getAccountDetail(payload)
+        .then(res => {
+          context.commit('getAccountDetail', res)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 })

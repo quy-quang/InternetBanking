@@ -1,6 +1,5 @@
 <template>
   <div class="account-detail">
-    <div class="user-info">
       <table class="table">
         <tr>
           <th>Account Number</th>
@@ -19,7 +18,7 @@
         <div class="col-4">
           <button class="btn btn-success">
             <router-link
-              :to="'user/accountDetail/' + account"
+              :to="'/user/balancetransfer'"
               v-bind:style="{color: 'white'}"
             >Balance Transfer</router-link>
           </button>
@@ -27,7 +26,7 @@
         <div class="col-4">
           <button class="btn btn-info">
             <router-link
-              :to="'user/accountDetail/' + account"
+              :to="'/user/historyaccount'"
               v-bind:style="{color: 'white'}"
             >Transaction History</router-link>
           </button>
@@ -35,17 +34,15 @@
         <div class="col-4">
           <button class="btn btn-danger">
             <router-link
-              :to="'user/accountDetail/' + account"
+              :to="'/user/closeaccount'"
               v-bind:style="{color: 'white'}"
             >Close Account</router-link>
           </button>
         </div>
       </div>
-    </div>
   </div>
 </template>
 <script>
-import { getAccountDetail } from '../../helper/user.js'
 export default {
   name: 'AccountDetail',
   computed: {
@@ -54,18 +51,10 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('loading')
-    getAccountDetail({
+    this.$store.dispatch('loadAccountDetail', {
       userId: this.$store.state.currentUser.userId,
       accountNumber: this.$route.params.id
     })
-      .then(res => {
-        console.log(res)
-        this.$store.commit('getAccountDetail', res)
-      })
-      .catch(error => {
-        console.log(error)
-      })
   }
 }
 </script>
