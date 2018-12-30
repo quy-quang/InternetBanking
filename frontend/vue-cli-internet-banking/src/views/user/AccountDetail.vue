@@ -18,7 +18,7 @@
         <div class="col-4">
           <button class="btn btn-success">
             <router-link
-              :to="'/user/balancetransfer'"
+              :to="'/user/moneytransfer'"
               v-bind:style="{color: 'white'}"
             >Balance Transfer</router-link>
           </button>

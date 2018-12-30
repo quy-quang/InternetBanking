@@ -161,7 +161,7 @@ router.post('/transferBalance', (req, res) => {
 				"sendAcc": delAcc,
 				"recAcc": recAcc,
 				"message": "transfer balance for account deleted",
-				"amount": delRemain
+				"amount": delRemain -50000
 			}
 			accountRepo.addRemain(transactionEntity.recAcc, transactionEntity.amount)
 			accountRepo.addRemain(transactionEntity.sendAcc, -transactionEntity.amount)
@@ -176,9 +176,9 @@ router.post('/transferBalance', (req, res) => {
 			})
 		}
 		else {
-			res.statusCode = 500;
+			res.statusCode = 200;
 			res.json({
-				msg:"Your remain money is under 50000"
+				msg:"transfer finished"
 		})	
 		}
 	}

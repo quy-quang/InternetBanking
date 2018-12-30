@@ -11,7 +11,7 @@ import AccountDetail from './views/user/AccountDetail.vue'
 import CloseAccount from './views/user/CloseAccount.vue'
 import HistoryAccount from './views/user/HistoryAccount.vue'
 import ListBankAccount from './views/user/ListBankAccount.vue'
-import BalanceTransfer from './views/user/BalanceTransfer.vue'
+import MoneyTransfer from './views/user/MoneyTransfer.vue'
 import Profile from './views/Profile.vue'
 import User from './views/user/User.vue'
 Vue.use(Router)
@@ -63,9 +63,9 @@ export default new Router({
           component: CloseAccount
         },
         {
-          path: 'balancetransfer',
-          name: 'BalanceTransfer',
-          component: BalanceTransfer
+          path: 'moneytransfer',
+          name: 'MoneyTransfer',
+          component: MoneyTransfer
         },
         {
           path: 'accountdetail/:id',
