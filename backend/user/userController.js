@@ -13,9 +13,9 @@ const shortid = require('shortid');
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
-const 	OFFILINE = 0,
-		STANDBY = 1,
-		READY	= 2;
+const OFFILINE = 0,
+	STANDBY = 1,
+	READY = 2;
 
 //add vao database
 // {
@@ -49,19 +49,19 @@ router.post('/login', (req, res) => {
 	var loginEntity = req.body;
 	var md5_pwd = md5(loginEntity.password);
 	console.log(md5_pwd)
-	var userEntity = userDB.get('user').find({"username": loginEntity.username, "password": md5_pwd}).value();
-	if (userEntity != undefined){
+	var userEntity = userDB.get('user').find({ "username": loginEntity.username, "password": md5_pwd }).value();
+	if (userEntity != undefined) {
 		var acToken = authRepo.generationAccessToken(userEntity);
 		var rfToken = authRepo.generateRefreshToken();
 		authRepo.updateRefreshToken(userEntity.userId, rfToken)
 		res.json({
 			auth: true,
 			user: userEntity,
-			access_token : acToken,
-			refresh_token : rfToken
+			access_token: acToken,
+			refresh_token: rfToken
 		})
 	}
-	else{
+	else {
 		res.json({
 			auth: false
 		})
@@ -83,7 +83,7 @@ router.post('/getAccountList', (req, res) => {
 
 
 	res.statusCode = 201;
-	res.json({accountList});
+	res.json({ accountList });
 })
 
 router.post('/getAccountDetail', (req, res) => {
@@ -97,12 +97,55 @@ router.post('/getAccountDetail', (req, res) => {
 	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
 	var bankAccountDB = low(bankaccountAdapter);
 
-
 	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
 
-
 	res.statusCode = 201;
-	res.json({AccountDetail});
+	res.json({ AccountDetail });
+})
+
+
+router.post('/getAccountName', (req, res) => {
+	//AccountId
+	var accountNumber = req.body.accountNumber;
+
+	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankaccountAdapter);
+
+	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+	if (AccountDetail == null) {
+		res.statusCode = 204;
+		res.json({ msg: "No Data" });
+	} else {
+		res.statusCode = 201;
+		res.json({ accountName: AccountDetail.bankAccountName });
+	}
+})
+
+router.post('/getContactName', (req, res) => {
+	//userId
+	//accountNumber
+	var userId = req.body.userId;
+	var accountNumber = req.body.accountNumber;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+	var user = userDB.get('user').find({ "userId": userId }).value();
+	var contactList = user.contactList
+	if (contactList === []) {
+		res.statusCode = 204;
+	} else {
+		for (var i = 0; i < contactList.length; i++) {
+			if (contactList[i].accountNumber === accountNumber) {
+				res.statusCode = 201;
+				res.json({ accountName: contactList[i].name });
+			}
+		}
+	}
+	res.statusCode = 204;
+	res.json({
+		msg: "No Data"
+	})
 })
 
 router.post('/getHistory', (req, res) => {
@@ -120,18 +163,18 @@ router.post('/getHistory', (req, res) => {
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
 
-	if (accountList.indexOf(bankAccountId) >= 0){
+	if (accountList.indexOf(bankAccountId) >= 0) {
 		res.statusCode = 200;
 		//get list of transaction related to bankAccountId
 
 		res.json({
-			"relatedTransaction":transactionRepo.getRelatedTransaction(bankAccountId)
-			})
+			"relatedTransaction": transactionRepo.getRelatedTransaction(bankAccountId)
+		})
 	}
 	else {
 		res.statusCode = 500;
 		res.json({
-			msg:"User not found or not found bank account id in user"
+			msg: "User not found or not found bank account id in user"
 		})
 	}
 })
@@ -152,16 +195,16 @@ router.post('/transferBalance', (req, res) => {
 
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
-	if (accountList.indexOf(delAcc) >= 0 && accountList.indexOf(recAcc) >= 0){
-		var delRemain = accountRepo.getRemain(delAcc)  
+	if (accountList.indexOf(delAcc) >= 0 && accountList.indexOf(recAcc) >= 0) {
+		var delRemain = accountRepo.getRemain(delAcc)
 		//thuc hien chuyen tien con lai
-		if ( delRemain >= 50000){
-			
+		if (delRemain >= 50000) {
+
 			var transactionEntity = {
 				"sendAcc": delAcc,
 				"recAcc": recAcc,
 				"message": "transfer balance for account deleted",
-				"amount": delRemain -50000
+				"amount": delRemain - 50000
 			}
 			accountRepo.addRemain(transactionEntity.recAcc, transactionEntity.amount)
 			accountRepo.addRemain(transactionEntity.sendAcc, -transactionEntity.amount)
@@ -172,20 +215,20 @@ router.post('/transferBalance', (req, res) => {
 
 			res.statusCode = 200;
 			res.json({
-			msg: 'transfer finished'
+				msg: 'transfer finished'
 			})
 		}
 		else {
 			res.statusCode = 200;
 			res.json({
-				msg:"transfer finished"
-		})	
+				msg: "transfer finished"
+			})
 		}
 	}
 	else {
 		res.statusCode = 500;
 		res.json({
-			msg:"Wrong bank account"
+			msg: "Wrong bank account"
 		})
 	}
 
@@ -206,30 +249,30 @@ router.post('/deleteAccount', (req, res) => {
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
 
-	if (accountList.indexOf(bankAccountId) >= 0){
+	if (accountList.indexOf(bankAccountId) >= 0) {
 
 		var event = userDB.get('user').find({ "userId": userId })
-		.get("listAccount").remove( acc => acc == bankAccountId).write();
+			.get("listAccount").remove(acc => acc == bankAccountId).write();
 
-		if (event){
+		if (event) {
 			res.statusCode = 200;
 
 			res.json({
 				"msg": "deleted"
-				})
+			})
 		}
 		else {
 			res.statusCode = 404;
 
 			res.json({
 				"msg": "cannot delete account"
-				})
+			})
 		}
 	}
 	else {
 		res.statusCode = 500;
 		res.json({
-			msg:"User not found or not found bank account id in user"
+			msg: "User not found or not found bank account id in user"
 		})
 	}
 })

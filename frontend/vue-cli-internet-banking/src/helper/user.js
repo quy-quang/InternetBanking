@@ -1,6 +1,8 @@
 /* eslint-disable */
 const API_GET_LIST_ACCOUNT = 'http://localhost:3000/user/getAccountList'
 const API_GET_ACCOUNT_DETAIL = 'http://localhost:3000/user/getAccountDetail'
+const API_GET_ACCOUNT_NAME = 'http://localhost:3000/user/getAccountName'
+const API_GET_CONTACT_NAME = 'http://localhost:3000/user/getContactName'
 const API_GET_ACCOUNT_HISTORY = 'http://localhost:3000/user/getHistory'
 const API_CLOSE_ACCOUNT = 'http://localhost:3000/user/deleteAccount'
 const API_TRANSFER_BALANCE = 'http://localhost:3000/user/transferBalance'
@@ -56,6 +58,30 @@ export function closeAccount(credentials) {
 export function transferBalance(credentials) {
     return new Promise((resolve, reject) => {
         axios.post(API_TRANSFER_BALANCE, credentials)
+            .then(response => {
+                resolve(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export function getAccountName(credentials) {
+    return new Promise((resolve, reject) => {
+        axios.post(API_GET_ACCOUNT_NAME, credentials)
+            .then(response => {
+                resolve(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export function getContactName(credentials) {
+    return new Promise((resolve, reject) => {
+        axios.post(API_GET_CONTACT_NAME, credentials)
             .then(response => {
                 resolve(response)
             })

@@ -8,9 +8,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLodash from 'vue-lodash'
+
+const options = { name: 'lodash' }
 
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, Axios)
+Vue.use(VueLodash, options)
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {

@@ -22,10 +22,24 @@
     </form>
   </div>
 </template>
-
 <script>
 import validate from 'validate.js'
-import lodash from 'lodash'
+import { getAccountName, getContactName } from '../../helper/user.js'
+// Function debounce
+function debounce (func, wait) {
+  var timeout
+  return function () {
+    var context = this
+    var args = arguments
+    var executeFunction = function () {
+      timeout = null
+      func.apply(context, args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(executeFunction, wait)
+  }
+}
+
 export default {
   name: 'MoneyTransfer',
   data () {
@@ -40,17 +54,52 @@ export default {
     }
   },
   watch: {
-    transfer: function (newVal, oldVal) {
+    'transfer.receiveAccount': function (newVal, oldVal) {
       this.accountHolder = 'Searching...'
-      this.SearchHolder()
+      if (newVal === '') {
+        this.accountHolder = 'Account Holder'
+      } else {
+        this.debouncedGetAnswer()
+      }
     }
   },
   created () {
-    this.SearchHolder = this.getHolder()
+    var vm = this
+    this.debouncedGetAnswer = debounce(function () {
+      return vm.getHolder()
+    }, 500)
   },
-  method: {
+  methods: {
     getHolder () {
-      this.accountHolder = 'Cao Ba Dong'
+      console.log('called')
+      getContactName({
+        userId: this.$store.state.currentUser.userId,
+        accountNumber: this.transfer.receiveAccount
+      })
+        .then(res => {
+          console.log(res)
+          if (res.status === 201) {
+            this.accountHolder = res.data.accountName
+          } else {
+            if (res.status === 204) {
+              getAccountName({
+                accountNumber: this.transfer.receiveAccount
+              })
+                .then(res => {
+                  if (res.status === 201) {
+                    this.accountHolder = res.data.accountName
+                  } else {
+                    if (res.status === 204) {
+                      this.accountHolder = "This Account Number doesn't exist"
+                    }
+                  }
+                })
+            }
+          }
+        })
+        .catch(errors => {
+          console.log(errors)
+        })
     },
     add () {
       this.errors = null
