@@ -1,6 +1,8 @@
 var low = require('lowdb'),
 	fileSync = require('lowdb/adapters/FileSync')
 
+const shortid = require('shortid');
+
 exports.getRemain = (bankAccountId) => {
    	// {
 	// "bankAccountId":
@@ -28,5 +30,18 @@ exports.addRemain = (bankAccountId, amount) => {
 	var newRemain = oldRemain + amount;
 
 	bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).set("remain",newRemain).write();
+}
+
+exports.createAccount = (bankAccountName) => {
+	var bankAccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankAccountAdapter);
+
+	var bankAccount={};
+	bankAccount["bankAccountId"] = shortid.generate();
+	bankAccount["remain"] = 0;
+	bankAccount["bankAccountName"] = bankAccountName;
+	bankAccountDB.get('bankAccountList').push(bankAccount).write();
+
+	return bankAccount["bankAccountId"];
 }
 

@@ -13,9 +13,8 @@ const shortid = require('shortid');
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
-const 	OFFILINE = 0,
-		STANDBY = 1,
-		READY	= 2;
+const 	NORMAL_USER = 1,
+		EMPLOYER = 2
 
 //add vao database
 // {
@@ -89,20 +88,31 @@ router.post('/getAccountList', (req, res) => {
 router.post('/getAccountDetail', (req, res) => {
 	// {
 	// 	"userId":
+	// 	bankAccountId:""
 	// }
-	var userId = req.body.userId;// bo sung them check account number in account id.
-	var accountNumber = req.body.accountNumber;
+	var userId = req.body.userId;// bo sung them check account number in account id.=> done
+	var bankAccountId = req.body.bankAccountId;
 
 
 	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
 	var bankAccountDB = low(bankaccountAdapter);
 
+	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
 
-	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+	if (accountList.indexOf(bankAccountId) >= 0){
+		var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).value();
+		res.statusCode = 200;
+		res.json({AccountDetail});
+	}
+	else {
+		res.statusCode = 500;
+		res.json({
+			msg:"User not found or not found bank account id in user"
+		})
+	}
 
 
-	res.statusCode = 201;
-	res.json({AccountDetail});
+	
 })
 
 router.post('/getHistory', (req, res) => {
@@ -234,4 +244,51 @@ router.post('/deleteAccount', (req, res) => {
 	}
 })
 
+router.post('/createUser', (req, res) => {
+	// {
+ //      "username": "quyquang",
+ //      "password": "xxx",
+ //      "name": "Nguyen Phuoc Quy Quang",
+ //      "email": "quyquang2421997@gmail.com",
+ //    }
+
+	var userEntity = req.body;
+
+	var md5_pwd = md5(userEntity.password);
+
+	userEntity["userId"] = shortid.generate();
+	userEntity["password"] = md5_pwd;
+	userEntity["type"] = NORMAL_USER;
+	userEntity["listAccount"] = []
+	userDB.get('user').push(userEntity).write();
+
+	res.statusCode = 201;
+	res.json({
+		msg: 'user created'
+	})
+})
+
+router.post('/createAccountForUser', (req, res) => {
+	// {
+	// 	"userId":
+	// }
+
+	var userId = req.body.userId;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+
+	var name = userDB.get('user').find({ "userId": userId }).value().name;
+
+
+	var newAccount = accountRepo.createAccount(name);
+	userDB.get('user').find({"userId": userId}).get('listAccount').push(newAccount).write();
+
+	res.statusCode = 201;
+	res.json({
+		msg:"Account created"
+	});
+
+})
 module.exports = router;

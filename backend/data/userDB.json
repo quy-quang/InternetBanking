@@ -8,7 +8,8 @@
       "type": 1,
       "listAccount": [
         "123",
-        "456"
+        "456",
+        "TMVxT3tWN"
       ],
       "userId": "oddkTDlh1"
     },
@@ -38,6 +39,15 @@
       "type": 1,
       "listAccount": [],
       "userId": "7ZODvDhWe"
+    },
+    {
+      "username": "quyquang1",
+      "password": "202cb962ac59075b964b07152d234b70",
+      "name": "Nguyen Phuoc Quy Quang",
+      "email": "quyquang2421997@gmail.com",
+      "userId": "iFHzz7zXl",
+      "type": 1,
+      "listAccount": []
     }
   ]
 }
