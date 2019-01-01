@@ -53,7 +53,7 @@ export default {
   mounted () {
     this.$store.dispatch('loadAccountDetail', {
       userId: this.$store.state.currentUser.userId,
-      accountNumber: this.$route.params.id
+      bankAccountId: this.$route.params.id
     })
   }
 }
