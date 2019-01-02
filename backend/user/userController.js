@@ -289,6 +289,37 @@ router.post('/deleteAccount', (req, res) => {
 	}
 })
 
+router.post('/newContact', (req, res) => {
+	//userId
+	//contactName
+	//accountNumber
+	var userId = req.body.userId;
+	var contactName = req.body.contactName;
+	var accountNumber = req.body.accountNumber;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+	var contact = userDB.get('user').find({ "userId": userId }).get('contactList').find({"accountNumber": accountNumber}).value();
+
+	if (contact == null) {
+		userDB.get('user').find({ "userId": userId }).get('contactList').push({
+			name: contactName,
+			accountNumber: accountNumber
+		}).write()
+	} else {
+		userDB.get('user').find({ "userId": userId }).get('contactList').remove(contact => contact.accountNumber == accountNumber).write();
+		userDB.get('user').find({ "userId": userId }).get('contactList').push({
+			name: contactName,
+			accountNumber: accountNumber
+		}).write()
+	}
+	res.statusCode = 201;
+		res.json({
+			msg: "Save complete"
+	})
+})
+
 router.post('/createUser', (req, res) => {
 	// {
 	//      "username": "quyquang",

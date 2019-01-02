@@ -56,7 +56,8 @@ export default {
         { icon: 'person', title: 'About', link: '/about' }
       ],
       userMenu: [
-        { icon: 'face', title: 'List Bank Account', link: '/user/' }
+        { icon: 'face', title: 'List Bank Account', link: '/user' },
+        { icon: 'abc', title: 'Contact', link: '/contact' }
       ],
       employeeMenu: [
         { icon: 'lock_open', title: 'Create User', link: '/employee/createuser' },

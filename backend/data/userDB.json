@@ -8,13 +8,16 @@
       "type": 1,
       "listAccount": [
         "123",
-        "456",
-        "TMVxT3tWN"
+        "456"
       ],
       "contactList": [
         {
-          "name": "Hải Bóng Vàng",
+          "name": "QBV 2018",
           "accountNumber": "456"
+        },
+        {
+          "name": "Tài năng trẻ",
+          "accountNumber": "123"
         }
       ],
       "userId": "oddkTDlh1"

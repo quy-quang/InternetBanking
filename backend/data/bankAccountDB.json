@@ -2,7 +2,7 @@
   "bankAccountList": [
     {
       "bankAccountId": "123",
-      "remain": 550000,
+      "remain": 450000,
       "bankAccountName": "Doan Van Hau"
     },
     {
@@ -11,14 +11,9 @@
       "bankAccountName": "Nguyen Quang Hai"
     },
     {
-      "bankAccountId": "2cYIkE6JS",
-      "remain": 0,
-      "bankAccountName": "quyquang"
-    },
-    {
-      "bankAccountId": "TMVxT3tWN",
-      "remain": 0,
-      "bankAccountName": "Nguyen Phuoc Quy Quang"
+      "bankAccountId": "111",
+      "remain": 100000,
+      "bankAccountName": "Nguyễn Công Phượng"
     }
   ]
 }

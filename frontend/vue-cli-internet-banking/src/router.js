@@ -14,6 +14,8 @@ import ListBankAccount from './views/user/ListBankAccount.vue'
 import MoneyTransfer from './views/user/MoneyTransfer.vue'
 import Profile from './views/Profile.vue'
 import User from './views/user/User.vue'
+import Contact from './views/user/Contact.vue'
+import NewContact from './views/user/NewContact.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -73,6 +75,22 @@ export default new Router({
           component: AccountDetail
         }
       ]
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact,
+      meta: {
+        requiresUserAuth: true
+      }
+    },
+    {
+      path: '/contact/new',
+      name: 'NewContact',
+      component: NewContact,
+      meta: {
+        requiresUserAuth: true
+      }
     },
     {
       path: '/employee/createuser',

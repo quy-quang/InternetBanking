@@ -13,7 +13,7 @@
         </template>
         <template v-else>
           <tr v-for="(account, index) in accountList" :key="index">
-            <td>{{index}}</td>
+            <td>{{index + 1}}</td>
             <td>{{account}}</td>
             <td>
               <button class="btn btn-info">

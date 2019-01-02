@@ -1,6 +1,6 @@
 <template>
   <div class="transferbalance">
-    <form @submit.prevent ="add">
+    <form @submit.prevent ="transferNow">
       <div class="form-group">
         <label for="bankAccountNumber">Bank Account Number</label>
         <input type="number" name="bankAccountNumber" id="bankAccountNumber" class="form-control" v-model="transfer.receiveAccount">
@@ -57,6 +57,7 @@ export default {
         message: ''
       },
       accountHolder: 'Account Holder',
+      checkAccount: '',
       errors: null
     }
   },
@@ -87,6 +88,7 @@ export default {
           console.log(res)
           if (res.status === 201) {
             this.accountHolder = res.data.accountName
+            this.checkAccount = true
           } else {
             if (res.status === 204) {
               getAccountName({
@@ -95,9 +97,11 @@ export default {
                 .then(res => {
                   if (res.status === 201) {
                     this.accountHolder = res.data.accountName
+                    this.checkAccount = true
                   } else {
                     if (res.status === 204) {
                       this.accountHolder = "This Account Number doesn't exist"
+                      this.checkAccount = false
                     }
                   }
                 })
@@ -108,7 +112,7 @@ export default {
           console.log(errors)
         })
     },
-    add () {
+    transferNow () {
       this.errors = null
       const constraints = this.getConstraints()
       const errors = validate(this.$data.transfer, constraints)
@@ -116,21 +120,32 @@ export default {
         this.errors = errors
       }
       // Send the data to the back-end APi
-      transferMoney({
-        sendAcc: this.$store.state.currentAccount.bankAccountId,
-        recAcc: this.transfer.receiveAccount,
-        message: this.transfer.message,
-        amount: this.transfer.money
-      })
-        .then(res => {
-          if (res.status === 500) {
-            alert('Transfer that bai')
-          } else {
-            if (res.status === 200) {
-              alert('Transfer thanh cong')
-            }
+      if (errors || this.checkAccount === false) {
+        this.errors = errors
+        if (this.checkAccount === false) {
+          this.errors = {
+            accountHolder: ["Doesn't exist"]
           }
+        }
+      } else {
+        transferMoney({
+          sendAcc: this.$store.state.currentAccount.bankAccountId,
+          recAcc: this.transfer.receiveAccount,
+          message: this.transfer.message,
+          amount: this.transfer.money
         })
+          .then(res => {
+            if (res.status === 500) {
+              alert('Transfer that bai')
+            } else {
+              if (res.status === 200) {
+                alert('Transfer thanh cong')
+                // Chuyển xong nhảy qua trang OTP
+                this.$router.push('/')
+              }
+            }
+          })
+      }
     },
     getConstraints () {
       return {

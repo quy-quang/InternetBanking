@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">login</div>
         <div class="card-body">
-          <form @submit.prevent="authenticate">
+          <form @submit.prevent="authenticate" action="login">
             <div class="form-group row">
               <label for="userName"></label>
               <input
@@ -24,7 +24,7 @@
               >
             </div>
             <div class="form-group row">
-              <input type="submit" value="Login">
+              <input type="submit" value="Login" class="btn btn-primary">
             </div>
           </form>
         </div>
@@ -41,7 +41,8 @@ export default {
     return {
       form: {
         username: '',
-        password: ''
+        password: '',
+        token: grecaptcha.getResponse
       },
       error: null
     }
@@ -59,6 +60,13 @@ export default {
           this.$store.commit('loginFailed', { error })
         })
     }
+  },
+  mounted () {
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Lf4L4YUAAAAANQnOtH0QlYnE_KMH3wRmhXbLbrs', { action: 'login' })
+        .then(function (token) {
+        })
+    })
   }
 }
 </script>

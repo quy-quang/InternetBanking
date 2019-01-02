@@ -74,6 +74,18 @@ export default new Vuex.Store({
       state.currentAccount = payload.AccountDetail
       localStorage.setItem('account', JSON.stringify(state.currentAccount))
       state.loading = false
+    },
+    addContact (state, payload) {
+      var checker = false
+      for (var i = 0; i < state.currentUser.contactList.length; i++) {
+        if (state.currentUser.contactList[i].accountNumber === payload.accountNumber) {
+          state.currentUser.contactList[i].name = payload.name
+          checker = true
+        }
+      }
+      if (checker === false) {
+        state.currentUser.contactList.push(payload)
+      }
     }
   },
   actions: {
@@ -91,6 +103,9 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error)
         })
+    },
+    addContact (context, payload) {
+      context.commit('addContact', payload)
     }
   }
 })
