@@ -101,9 +101,6 @@ router.post('/getAccountDetail', (req, res) => {
 	var userDB = low(userAdapter);
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
-	console.log(accountList)
-	console.log(userId)
-	console.log(bankAccountId)
 
 	if (accountList.indexOf(bankAccountId) >= 0) {
 		var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).value();

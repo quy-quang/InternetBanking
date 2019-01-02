@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
 		})
 	}
 	else {
-		res.statusCode = 200;
+		res.statusCode = 500;
 		res.json({
 		msg: 'not enough money'
 		})

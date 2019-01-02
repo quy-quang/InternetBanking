@@ -11,7 +11,7 @@
       </div>
       <div class="form-group">
         <label for="money">Money</label>
-        <input type="number" name="money" id="money" class="form-control" v-model="transfer.money">
+        <input type="number" name="money" id="money" class="form-control" v-model.number="transfer.money">
         <small class="text-muted">Currency: VND</small>
       </div>
       <div class="form-group">
@@ -20,11 +20,18 @@
       </div>
       <button type="submit" class="btn btn-primary">Transfer</button>
     </form>
+    <div class="errors" v-if="errors">
+      <ul>
+        <li v-for="(fieldsError, fieldName) in errors" :key="fieldName">
+          <strong>{{fieldName}}</strong> {{fieldsError.join('.\n')}}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
 import validate from 'validate.js'
-import { getAccountName, getContactName } from '../../helper/user.js'
+import { getAccountName, getContactName, transferMoney } from '../../helper/user.js'
 // Function debounce
 function debounce (func, wait) {
   var timeout
@@ -50,7 +57,7 @@ export default {
         message: ''
       },
       accountHolder: 'Account Holder',
-      error: null
+      errors: null
     }
   },
   watch: {
@@ -108,22 +115,54 @@ export default {
       if (errors) {
         this.errors = errors
       }
+      // Send the data to the back-end APi
+      transferMoney({
+        sendAcc: this.$store.state.currentAccount.bankAccountId,
+        recAcc: this.transfer.receiveAccount,
+        message: this.transfer.message,
+        amount: this.transfer.money
+      })
+        .then(res => {
+          if (res.status === 500) {
+            alert('Transfer that bai')
+          } else {
+            if (res.status === 200) {
+              alert('Transfer thanh cong')
+            }
+          }
+        })
     },
     getConstraints () {
       return {
         receiveAccount: {
-          presense: true,
-          numbericallity: true,
+          presence: true,
+          numericality: true,
           length: {
             minimum: 3,
             message: 'must be at least 3 numbers long'
           }
         },
         money: {
-          presense: true
+          presence: true,
+          numericality: true
+        },
+        message: {
+          presence: true,
+          length: {
+            minimum: 3,
+            message: 'must be at least 10 characters long'
+          }
         }
       }
     }
   }
 }
 </script>
+<style>
+.errors{
+  background: lightcoral;
+  border-radius: 5px;
+  padding: 21px 0px 2px 0px;
+  margin-top: 20px;
+}
+</style>

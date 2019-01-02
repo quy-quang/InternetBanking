@@ -6,6 +6,7 @@ const API_GET_CONTACT_NAME = 'http://localhost:3000/user/getContactName'
 const API_GET_ACCOUNT_HISTORY = 'http://localhost:3000/user/getHistory'
 const API_CLOSE_ACCOUNT = 'http://localhost:3000/user/deleteAccount'
 const API_TRANSFER_BALANCE = 'http://localhost:3000/user/transferBalance'
+const API_TRANSFER_MONEY = 'http://localhost:3000/transaction'
 import axios from 'axios'
 export function getListAccount (credentials) {
     return new Promise((resolve, reject) => {
@@ -82,6 +83,18 @@ export function getAccountName(credentials) {
 export function getContactName(credentials) {
     return new Promise((resolve, reject) => {
         axios.post(API_GET_CONTACT_NAME, credentials)
+            .then(response => {
+                resolve(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export function transferMoney(credentials) {
+    return new Promise((resolve, reject) => {
+        axios.post(API_TRANSFER_MONEY, credentials)
             .then(response => {
                 resolve(response)
             })
