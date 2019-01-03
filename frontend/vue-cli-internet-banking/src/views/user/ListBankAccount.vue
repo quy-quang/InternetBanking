@@ -16,9 +16,7 @@
             <td>{{index + 1}}</td>
             <td>{{account}}</td>
             <td>
-              <button class="btn btn-info">
-                <router-link :to="{name: 'AccountDetail', params: {id: account}}" v-bind:style="{color: 'white'}">More Detail</router-link>
-              </button>
+              <router-link :to="{name: 'AccountDetail', params: {id: account}}" v-bind:style="{color: 'white'}" class="btn btn-info">More Detail</router-link>
             </td>
           </tr>
         </template>

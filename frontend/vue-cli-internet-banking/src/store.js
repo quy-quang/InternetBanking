@@ -57,7 +57,7 @@ export default new Vuex.Store({
       state.type = state.currentUser.type
     },
     loginFailed (state, payload) {
-      state.loadinng = false
+      state.loading = false
       state.auth_error = payload.error
     },
     logout (state) {
