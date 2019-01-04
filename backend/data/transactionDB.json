@@ -118,6 +118,13 @@
       "message": "Chuyển Phượng 50k",
       "amount": 50000,
       "transactionId": "a-4o76BHJ"
+    },
+    {
+      "sendAcc": "123",
+      "recAcc": "456",
+      "message": "transfer balance for account deleted",
+      "amount": 400000,
+      "transactionId": "7Di2w5pgG"
     }
   ]
 }

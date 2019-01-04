@@ -69,29 +69,6 @@ router.post('/verifyCaptcha', (req, res) => {
 	});
 })
 //dang nhap
-router.post('/login', (req, res) => {
-	var loginEntity = req.body;
-	var md5_pwd = md5(loginEntity.password);
-	var userEntity = userDB.get('user').find({ "username": loginEntity.username, "password": md5_pwd }).value();
-	if (userEntity != undefined) {
-		var acToken = authRepo.generationAccessToken(userEntity);
-		var rfToken = authRepo.generateRefreshToken();
-		authRepo.updateRefreshToken(userEntity.userId, rfToken)
-		res.statusCode = 201
-		res.json({
-			auth: true,
-			user: userEntity,
-			access_token: acToken,
-			refresh_token: rfToken
-		})
-	}
-	else {
-		res.statusCode = 401
-		res.json({
-			auth: false
-		})
-	}
-})
 
 router.post('/getAccountList', (req, res) => {
 	// {
