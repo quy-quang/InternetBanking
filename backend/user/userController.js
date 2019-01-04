@@ -1,5 +1,4 @@
 var express = require('express')
-var request = require('request');
 var router = express.Router();
 var authRepo = require('./Repo/authRepo')
 var accountRepo = require('../account/Repo/accountRepo')
@@ -8,7 +7,6 @@ var md5 = require('md5')
 var low = require('lowdb'),
 	fileSync = require('lowdb/adapters/FileSync')
 const shortid = require('shortid');
-const secretKey = '6Lf4L4YUAAAAAKXFwMsq_0AK4B_3ABuy9JDVTT_d';
 
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
@@ -41,31 +39,6 @@ router.post('/', (req, res) => {
 	res.json({
 		msg: 'received request'
 	})
-})
-
-router.post('/verifyCaptcha', (req, res) => {
-	var captchaToken = req.body.token;
-	var remoteIp = req.connection.remoteAddress;
-	if (
-		captchaToken === undefined ||
-		captchaToken === '' ||
-		captchaToken === null
-	) {
-		return res.json({ "success": false, "msg": "No captcha" });
-	}
-	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}&remoteip=${remoteIp}`;
-	request(verifyUrl, (err, response, body) => {
-		body = JSON.parse(body);
-		console.log(body);
-		// If Not Successful
-		if (body.success !== undefined && !body.success) {
-			res.statusCode = 401
-			return res.json({ "success": false, "msg": "Failed captcha verification" });
-		} else {
-			res.statusCode = 200
-			return res.json({"success": true, "msg":"Captcha passed"});
-		}
-	});
 })
 //dang nhap
 
@@ -117,50 +90,6 @@ router.post('/getAccountDetail', (req, res) => {
 	}
 })
 
-
-router.post('/getAccountName', (req, res) => {
-	//AccountId
-	var accountNumber = req.body.accountNumber;
-
-	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
-	var bankAccountDB = low(bankaccountAdapter);
-
-	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
-	if (AccountDetail == null) {
-		res.statusCode = 204;
-		res.json({ msg: "No Data" });
-	} else {
-		res.statusCode = 201;
-		res.json({ accountName: AccountDetail.bankAccountName });
-	}
-})
-
-router.post('/getContactName', (req, res) => {
-	//userId
-	//accountNumber
-	var userId = req.body.userId;
-	var accountNumber = req.body.accountNumber;
-
-	var userAdapter = new fileSync('./data/userDB.json');
-	var userDB = low(userAdapter);
-
-	var user = userDB.get('user').find({ "userId": userId }).value();
-	var contactList = user.contactList
-	if (contactList === []) {
-		res.statusCode = 204;
-	} else {
-		for (var i = 0; i < contactList.length; i++) {
-			if (contactList[i].accountNumber === accountNumber) {
-				res.statusCode = 201;
-				res.json({ accountName: contactList[i].name });
-			}
-		}
-	}
-	res.statusCode = 204;
-	res.json({
-		msg: "No Data"
-	})
-})
 
 router.post('/getHistory', (req, res) => {
 
@@ -321,23 +250,7 @@ router.post('/newContact', (req, res) => {
 		msg: "Save complete"
 	})
 })
-router.post('/checkUsername', (req, res) => {
-	var username = req.body.username;
-	var userAdapter = new fileSync('./data/userDB.json');
-	var userDB = low(userAdapter);
-	var user = userDB.get('user').find({ "username": username }).value();
-	if(user == null) {
-		res.statusCode = 200
-		res.json({
-			msg: "Accept"
-		})
-	} else {
-		res.statusCode = 204
-		res.json({
-			msg: "username is already exist"
-		})
-	}
-})
+
 router.post('/createUser', (req, res) => {
 	// {
 	//      "username": "quyquang",

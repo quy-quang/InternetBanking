@@ -4,7 +4,19 @@ import axios from 'axios'
 //Hàm login
 export function login (credentials) {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:3000/user/login', credentials)
+        axios.post('http://localhost:3000/login', credentials)
+            .then(response => {
+                resolve(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export function getToken (credentials) {
+    return new Promise((resolve, reject) => {
+        axios.post('http://localhost:3000/getAccessTokenFromRefreshToken', credentials)
             .then(response => {
                 resolve(response)
             })
@@ -16,7 +28,7 @@ export function login (credentials) {
 
 export function verifyCaptcha (credentials) {
     return new Promise((resolve, reject) => {
-        axios.post('http://localhost:3000/user/verifyCaptcha', credentials)
+        axios.post('http://localhost:3000/verifyCaptcha', credentials)
             .then(response => {
                 resolve(response)
             })

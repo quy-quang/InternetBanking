@@ -1,1 +1,12 @@
-{}
+{
+  "refreshTokenList": [
+    {
+      "userId": "oddkTDlh1",
+      "refreshToken": "kMiAFA7oYnTk4JRohjMfVH4sRWrdO9bXOk4Gs6OkqXMGIHVMwoWWc6qpZZCfb6dfiElRHxBdF3DZr24y"
+    },
+    {
+      "userId": "FSvvr7_Ev",
+      "refreshToken": "ENpX8PaUDhULlOXG9UWXT1669YbwUnUWm4JVlpXnvvSfD7Qj2LJ0xVrX63leP9ZzPQvGNdv5diBzzoWI"
+    }
+  ]
+}

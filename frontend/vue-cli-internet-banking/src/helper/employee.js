@@ -1,5 +1,5 @@
 /* eslint-disable */
-const API_CHECK_USERNAME = 'http://localhost:3000/user/checkUsername'
+const API_CHECK_USERNAME = 'http://localhost:3000/checkUsername'
 const API_CREATE_USER = 'http://localhost:3000/user/createUser'
 const API_CREATE_BANK_ACCOUNT = 'http://localhost:3000/user/createBankAccount'
 import axios from 'axios'

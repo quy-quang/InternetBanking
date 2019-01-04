@@ -2,12 +2,12 @@
   "bankAccountList": [
     {
       "bankAccountId": "123",
-      "remain": 50000,
+      "remain": 55000,
       "bankAccountName": "Doan Van Hau"
     },
     {
       "bankAccountId": "456",
-      "remain": 1350000,
+      "remain": 1345000,
       "bankAccountName": "Nguyen Quang Hai"
     },
     {
@@ -19,6 +19,11 @@
       "bankAccountId": "1546577442559",
       "remain": 0,
       "bankAccountName": "Cao Bá Đông"
+    },
+    {
+      "bankAccountId": "1546599365616",
+      "remain": 0,
+      "bankAccountName": "Cao Ba Dong"
     }
   ]
 }

@@ -28,7 +28,7 @@
           <b-dropdown-item href="#">EN</b-dropdown-item>
           <b-dropdown-item href="#">VI</b-dropdown-item>
         </b-nav-item-dropdown>
-        <template v-if="user !== null">
+        <template v-if="typeMenu !== 0 ">
           <b-nav-item-dropdown v-bind:text="user.name" right>
             <b-dropdown-item href="#" v-for="item in optionMenu" :key="item.title"
             :to="item.link">{{item.title}}</b-dropdown-item>

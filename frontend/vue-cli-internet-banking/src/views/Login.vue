@@ -23,7 +23,6 @@
                 placeholder="Password"
               >
             </div>
-            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" v-model="form.token">
             <div class="form-group row">
               <input type="submit" value="Login" class="btn btn-primary">
             </div>
@@ -43,7 +42,7 @@
 
 <script>
 import validate from 'validate.js'
-import { login, verifyCaptcha } from '../helper/auth'
+import { login } from '../helper/auth'
 export default {
   name: 'login',
   data () {
@@ -64,39 +63,39 @@ export default {
       if (errors) {
         this.errors = errors
       } else {
-        verifyCaptcha({
-          token: this.form.token
+        this.$store.dispatch('login')
+        login({
+          username: this.form.username,
+          password: this.form.password
         })
           .then(res => {
-            if (res.status === 200) {
-              this.$store.dispatch('login')
-              login({
-                username: this.form.username,
-                password: this.form.password
-              })
-                .then(res => {
-                  if (res.status === 201) {
-                    this.$store.commit('loginSuccess', res.data)
-                    this.$router.push({ path: '/' })
-                  }
-                })
-                .catch(error => {
-                  this.$store.commit('loginFailed', { error })
-                  this.callback()
-                  this.errors = {
-                    'Login Fail': ['Username or Password is incorrect']
-                  }
-                })
+            if (res.status === 201) {
+              this.$store.commit('loginSuccess', res.data)
+              this.$router.push({ path: '/' })
             }
           })
-          .catch(errors => {
-            console.log(errors)
+          .catch(error => {
+            this.$store.commit('loginFailed', { error })
+            // grecaptcha.reset()
+            this.errors = {
+              'Login Fail': ['Username or Password is incorrect']
+            }
           })
+        // verifyCaptcha({
+        //   token: this.form.token
+        // })
+        //   .then(res => {
+        //     if (res.status === 200) {
+        //     }
+        //   })
+        //   .catch(errors => {
+        //     console.log(errors)
+        //   })
       }
     },
     callback () {
       // eslint-disable-next-line
-      grecaptcha.execute('6Lf4L4YUAAAAANQnOtH0QlYnE_KMH3wRmhXbLbrs', { action: 'login' })
+      grecaptcha.execute('6Lf4L4YUAAAAANQnOtH0QlYnE_KMH3wRmhXbLbrs', { action: '' })
         .then(token => {
           this.form.token = token
         })
@@ -122,7 +121,7 @@ export default {
   },
   mounted () {
     // eslint-disable-next-line
-    grecaptcha.ready(this.callback)
+    //grecaptcha.ready(this.callback)
   }
 }
 </script>

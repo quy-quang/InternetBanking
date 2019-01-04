@@ -17,6 +17,10 @@
         {
           "name": "Tài năng trẻ",
           "accountNumber": "123"
+        },
+        {
+          "name": "Phượng Cú Lừa",
+          "accountNumber": "111"
         }
       ],
       "userId": "oddkTDlh1"
@@ -49,6 +53,28 @@
       "name": "Tôn Thất Tâm Định",
       "email": "tonthattamdinh@gmail.com",
       "userId": "25nui3OJL",
+      "type": 1,
+      "listAccount": [],
+      "contactList": []
+    },
+    {
+      "username": "vrdong",
+      "password": "ebbe9254b61c440118b16cb165e10f97",
+      "name": "Cao Ba Dong",
+      "email": "caobadong19@gmail.com",
+      "userId": "FSvvr7_Ev",
+      "type": 1,
+      "listAccount": [
+        "1546599365616"
+      ],
+      "contactList": []
+    },
+    {
+      "username": " vrdong1",
+      "password": "ebbe9254b61c440118b16cb165e10f97",
+      "name": "Cao Ba Dong",
+      "email": "caobadong20@gmail.com",
+      "userId": "Ooo1jWC68",
       "type": 1,
       "listAccount": [],
       "contactList": []

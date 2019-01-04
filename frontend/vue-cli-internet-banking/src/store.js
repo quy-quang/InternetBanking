@@ -20,7 +20,10 @@ export default new Vuex.Store({
     auth_error: null,
     type: type,
     listAccount: [],
-    currentAccount: account
+    currentAccount: account,
+    refreshToken: null,
+    accessToken: null,
+    accessTokenExp: null
   },
   getters: {
     isLoading (state) {
@@ -34,6 +37,15 @@ export default new Vuex.Store({
     },
     typeUser (state) {
       return state.type
+    },
+    accessTokenExp (state) {
+      return state.accessTokenExp
+    },
+    accessToken (state) {
+      return state.accessToken
+    },
+    refreshToken (state) {
+      return state.refreshToken
     }
   },
   mutations: {
@@ -48,11 +60,10 @@ export default new Vuex.Store({
       state.auth_error = null
       state.isLoggedIn = true
       state.loading = false
-      state.currentUser = Object.assign({}, payload.user,
-        {
-          access_token: payload.access_token,
-          refresh_token: payload.refresh_token
-        })
+      state.currentUser = Object.assign({}, payload.user)
+      state.refreshToken = payload.refresh_token
+      state.accessToken = payload.access_token
+      state.accessTokenExp = Date.now() + 600000
       localStorage.setItem('user', JSON.stringify(state.currentUser))
       state.type = state.currentUser.type
     },
@@ -63,8 +74,13 @@ export default new Vuex.Store({
     logout (state) {
       localStorage.removeItem('user')
       state.isLoggedIn = false
+      state.listAccount = []
       state.currentUser = null
+      state.accessToken = null
+      state.refreshToken = null
+      state.accessTokenExp = null
       state.type = 0
+      state.currentAccount = null
     },
     getListSuccess (state, payload) {
       state.listAccount = payload.accountList
@@ -86,6 +102,10 @@ export default new Vuex.Store({
       if (checker === false) {
         state.currentUser.contactList.push(payload)
       }
+    },
+    accessToken (state, payload) {
+      state.accessToken = payload
+      state.accessTokenExp = Date.now() + 600000
     }
   },
   actions: {

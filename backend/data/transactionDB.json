@@ -125,6 +125,13 @@
       "message": "transfer balance for account deleted",
       "amount": 400000,
       "transactionId": "7Di2w5pgG"
+    },
+    {
+      "sendAcc": "456",
+      "recAcc": "123",
+      "message": "ABCXYZ",
+      "amount": 5000,
+      "transactionId": "N8olSAg5u"
     }
   ]
 }
