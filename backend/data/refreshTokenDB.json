@@ -1,1 +1,16 @@
-{}
+{
+  "refreshTokenList": [
+    {
+      "userId": "ulp9d6qYV",
+      "refreshToken": "Frl78kdw0oZspCYxDuWKWKFdfcOgPaPOoBYHp7I4HGtd75texDizuwjpQWVMbsWcNFcu0BqUGRCASHPL"
+    },
+    {
+      "userId": "oddkTDlh1",
+      "refreshToken": "HkHJFEgRNUQEi0p6EcCRirPzJTpadES8zooCrrcyfJaeY9pa1eOS8GXd7kc9BkwNg02zYRUG4Oyfyzkr"
+    },
+    {
+      "userId": "9tztMRjDe",
+      "refreshToken": "vNbDcb7rdwpJGGQH05q0QBUmm9CFh9da5OIU24WMAp7ZZ7cpHwFy4NREm52NXsJ0D4NUr3IlgUQsG1kQ"
+    }
+  ]
+}

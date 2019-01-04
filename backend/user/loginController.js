@@ -18,6 +18,14 @@ const NORMAL_USER = 1,
 	EMPLOYER = 2
 
 //add vao database
+// {
+// 	"username":"...",
+// 	"password":"...",
+// 	"name":"...",
+// 	"email":"...",
+// 	"type":"...",
+// 	"listAccount":[]
+// }
 router.post('/', (req, res) => {
 	var userEntity = req.body;
 	console.log(userEntity.password);
@@ -26,11 +34,9 @@ router.post('/', (req, res) => {
 	var md5_pwd = md5(userEntity.password);
 	console.log(JSON.stringify(md5_pwd))
 
-	userEntity["status"] = OFFILINE;
-	userEntity["driverId"] = shortid.generate();
+	userEntity["userId"] = shortid.generate();
 	userEntity["password"] = md5_pwd;
-	userEntity["currentLocation"] = "";
-	driverDB.get('driver').push(userEntity).write();
+	userDB.get('user').push(userEntity).write();
 
 	res.statusCode = 201;
 	res.json({
@@ -50,7 +56,7 @@ router.post('/login', (req, res) => {
 		var acToken = authRepo.generationAccessToken(userEntity);
 		var rfToken = authRepo.generateRefreshToken();
 		authRepo.updateRefreshToken(userEntity.userId, rfToken)
-		res.statusCode = 201
+		res.statusCode = 200
 		res.json({
 			auth: true,
 			user: userEntity,
@@ -68,21 +74,25 @@ router.post('/login', (req, res) => {
 
 
 router.post('/getAccessTokenFromRefreshToken', (req, res) => {
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
 	var refreshTokenAdapter = new fileSync('./data/refreshTokenDB.json');
     var refreshTokenDB = low(refreshTokenAdapter);
 	var refreshToken = req.body.refreshToken;
 	// console.log(refreshToken);
-	var driverId = refreshTokenDB.get('refreshTokenList').find({"refreshToken":refreshToken}).value().driverId;
-	// console.log(driverId);
+	var userId = refreshTokenDB.get('refreshTokenList').find({"refreshToken":refreshToken}).value().userId;
+	// console.log(userId);
 
-	if (driverId == undefined){
+	if (userId == undefined){
 		res.statusCode = 403;
 		res.json({
 			msg: "uncorrect refreshToken"
 		})
 	}
 	else{
-		var userEntity = driverDB.get('driver').find({"driverId": driverId}).value();
+		var userEntity = userDB.get('user').find({"userId": userId}).value();
 		if (userEntity != undefined){
 			res.statusCode = 200;
 			var acToken = authRepo.generationAccessToken(userEntity);
