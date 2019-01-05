@@ -1,139 +1,6 @@
 {
   "transaction": [
     {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "lMqnZQWYz"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "6y6YBxk4-"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "d7hgqVUMZ"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "baIqfiywX"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "KWRJfyc__"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "transfer balance for account deleted",
-      "amount": 147500,
-      "transactionId": "XBw-E_FDD"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "transfer balance for account deleted",
-      "amount": 200000,
-      "transactionId": "UgoB0um8s"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "nhan tien ne",
-      "amount": 500,
-      "transactionId": "IKijyTw-v"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "Hải chuyển ít tiền cho Hậu xài chơi",
-      "amount": "500",
-      "transactionId": "Ohbub8Mhw"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "Chuyển thằng Hải ít tiền xài chơi",
-      "amount": "50000",
-      "transactionId": "3WT5eVg1q"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "Chuyển ít tiền thằng Hậu xài chơi",
-      "amount": "50000",
-      "transactionId": "E2pblCgBG"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "456",
-      "message": "Chuyển ít tiền cho Hậu xài chơi",
-      "amount": 50000,
-      "transactionId": "J39sowumw"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "Chuyển ít tiền cho Hậu xài chơi",
-      "amount": 50000,
-      "transactionId": "gUMrt2Hqc"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "",
-      "message": "",
-      "amount": "",
-      "transactionId": "pv9B-nbe_"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "",
-      "message": "",
-      "amount": "",
-      "transactionId": "UNUyRdsuX"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "111",
-      "message": "Cho Phượng ít tiền xài chơi",
-      "amount": 50000,
-      "transactionId": "P2nKVfUXQ"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "111",
-      "message": "Chuyển Phượng 50k",
-      "amount": 50000,
-      "transactionId": "a-4o76BHJ"
-    },
-    {
-      "sendAcc": "123",
-      "recAcc": "456",
-      "message": "transfer balance for account deleted",
-      "amount": 400000,
-      "transactionId": "7Di2w5pgG"
-    },
-    {
-      "sendAcc": "456",
-      "recAcc": "123",
-      "message": "ABCXYZ",
-      "amount": 5000,
-      "transactionId": "N8olSAg5u"
-    },
-    {
       "sendAcc": "456",
       "recAcc": "123",
       "message": "nhan tien ne",
@@ -212,6 +79,46 @@
       "amount": 500,
       "status": 1,
       "transactionId": "v9j-8jaAA"
+    },
+    {
+      "sendAcc": "1546599365616",
+      "recAcc": "456",
+      "message": "Test chuyen tien",
+      "amount": 200000,
+      "status": 0,
+      "transactionId": "YMoRn5yo-"
+    },
+    {
+      "sendAcc": "1546599365616",
+      "recAcc": "456",
+      "message": "test",
+      "amount": 200000,
+      "status": 0,
+      "transactionId": "lfN4bcX6-"
+    },
+    {
+      "sendAcc": "1546599365616",
+      "recAcc": "456",
+      "message": "test",
+      "amount": 200000,
+      "status": 0,
+      "transactionId": "GFJJm7Wcy"
+    },
+    {
+      "sendAcc": "1546599365616",
+      "recAcc": "456",
+      "message": "test",
+      "amount": 200000,
+      "status": 0,
+      "transactionId": "wL33H4tQG"
+    },
+    {
+      "sendAcc": "1546599365616",
+      "recAcc": "456",
+      "message": "test",
+      "amount": 200000,
+      "status": 0,
+      "transactionId": "nBgPzAfIl"
     }
   ]
 }

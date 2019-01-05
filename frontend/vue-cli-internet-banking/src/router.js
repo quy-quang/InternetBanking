@@ -16,6 +16,7 @@ import Profile from './views/Profile.vue'
 import User from './views/user/User.vue'
 import Contact from './views/user/Contact.vue'
 import NewContact from './views/user/NewContact.vue'
+import VerifyOTP from './views/user/VerifyOTP.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -73,6 +74,11 @@ export default new Router({
           path: 'accountdetail/:id',
           name: 'AccountDetail',
           component: AccountDetail
+        },
+        {
+          path: 'verifyotp',
+          name: 'VerifyOTP',
+          component: VerifyOTP
         }
       ]
     },

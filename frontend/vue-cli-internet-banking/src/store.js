@@ -23,7 +23,8 @@ export default new Vuex.Store({
     currentAccount: account,
     refreshToken: null,
     accessToken: null,
-    accessTokenExp: null
+    accessTokenExp: null,
+    transactionId: null
   },
   getters: {
     isLoading (state) {
@@ -106,6 +107,9 @@ export default new Vuex.Store({
     accessToken (state, payload) {
       state.accessToken = payload
       state.accessTokenExp = Date.now() + 600000
+    },
+    transactionid (state, payload) {
+      state.transactionId = payload
     }
   },
   actions: {
