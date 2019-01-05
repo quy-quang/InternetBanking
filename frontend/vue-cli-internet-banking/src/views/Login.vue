@@ -23,7 +23,6 @@
                 placeholder="Password"
               >
             </div>
-            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response" v-model="form.token">
             <div class="form-group row">
               <input type="submit" value="Login" class="btn btn-primary">
             </div>
@@ -96,7 +95,7 @@ export default {
     },
     callback () {
       // eslint-disable-next-line
-      grecaptcha.execute('6Lf4L4YUAAAAANQnOtH0QlYnE_KMH3wRmhXbLbrs', { action: 'login' })
+      grecaptcha.execute('6Lf4L4YUAAAAANQnOtH0QlYnE_KMH3wRmhXbLbrs', { action: '' })
         .then(token => {
           this.form.token = token
         })

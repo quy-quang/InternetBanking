@@ -10,7 +10,6 @@ var low = require('lowdb'),
 const shortid = require('shortid');
 const secretKey = '6Lf4L4YUAAAAAKXFwMsq_0AK4B_3ABuy9JDVTT_d';
 
-
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
@@ -72,6 +71,31 @@ router.post('/login', (req, res) => {
 	}
 })
 
+router.post('/verifyCaptcha', (req, res) => {
+	var captchaToken = req.body.token;
+	var remoteIp = req.connection.remoteAddress;
+	if (
+		captchaToken === undefined ||
+		captchaToken === '' ||
+		captchaToken === null
+	) {
+		return res.json({ "success": false, "msg": "No captcha" });
+	}
+	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}&remoteip=${remoteIp}`;
+	request(verifyUrl, (err, response, body) => {
+		body = JSON.parse(body);
+		console.log(body);
+		// If Not Successful
+		if (body.success !== undefined && !body.success) {
+			res.statusCode = 401
+			return res.json({ "success": false, "msg": "Failed captcha verification" });
+		} else {
+			res.statusCode = 200
+			return res.json({"success": true, "msg":"Captcha passed"});
+		}
+	});
+})
+
 
 router.post('/getAccessTokenFromRefreshToken', (req, res) => {
 
@@ -81,9 +105,8 @@ router.post('/getAccessTokenFromRefreshToken', (req, res) => {
 	var refreshTokenAdapter = new fileSync('./data/refreshTokenDB.json');
     var refreshTokenDB = low(refreshTokenAdapter);
 	var refreshToken = req.body.refreshToken;
-	// console.log(refreshToken);
+
 	var userId = refreshTokenDB.get('refreshTokenList').find({"refreshToken":refreshToken}).value().userId;
-	// console.log(userId);
 
 	if (userId == undefined){
 		res.statusCode = 403;

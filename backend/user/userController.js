@@ -1,5 +1,4 @@
 var express = require('express')
-var request = require('request');
 var router = express.Router();
 var authRepo = require('./Repo/authRepo')
 var accountRepo = require('../account/Repo/accountRepo')
@@ -8,7 +7,6 @@ var md5 = require('md5')
 var low = require('lowdb'),
 	fileSync = require('lowdb/adapters/FileSync')
 const shortid = require('shortid');
-const secretKey = '6Lf4L4YUAAAAAKXFwMsq_0AK4B_3ABuy9JDVTT_d';
 
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
@@ -43,32 +41,7 @@ router.post('/', (req, res) => {
 	})
 })
 
-router.post('/verifyCaptcha', (req, res) => {
-	var captchaToken = req.body.token;
-	var remoteIp = req.connection.remoteAddress;
-	if (
-		captchaToken === undefined ||
-		captchaToken === '' ||
-		captchaToken === null
-	) {
-		return res.json({ "success": false, "msg": "No captcha" });
-	}
-	const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}&remoteip=${remoteIp}`;
-	request(verifyUrl, (err, response, body) => {
-		body = JSON.parse(body);
-		console.log(body);
-		// If Not Successful
-		if (body.success !== undefined && !body.success) {
-			res.statusCode = 401
-			return res.json({ "success": false, "msg": "Failed captcha verification" });
-		} else {
-			res.statusCode = 200
-			return res.json({"success": true, "msg":"Captcha passed"});
-		}
-	});
-})
-//dang nhap
-
+//API get list of Account in user
 router.post('/getAccountList', (req, res) => {
 	// {
 	// 	"userId":
@@ -87,6 +60,7 @@ router.post('/getAccountList', (req, res) => {
 	res.json({ accountList });
 })
 
+//API get detail of Account
 router.post('/getAccountDetail', (req, res) => {
 	// {
 	// 	"userId":
@@ -117,51 +91,7 @@ router.post('/getAccountDetail', (req, res) => {
 	}
 })
 
-
-router.post('/getAccountName', (req, res) => {
-	//AccountId
-	var accountNumber = req.body.accountNumber;
-
-	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
-	var bankAccountDB = low(bankaccountAdapter);
-
-	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
-	if (AccountDetail == null) {
-		res.statusCode = 204;
-		res.json({ msg: "No Data" });
-	} else {
-		res.statusCode = 201;
-		res.json({ accountName: AccountDetail.bankAccountName });
-	}
-})
-
-router.post('/getContactName', (req, res) => {
-	//userId
-	//accountNumber
-	var userId = req.body.userId;
-	var accountNumber = req.body.accountNumber;
-
-	var userAdapter = new fileSync('./data/userDB.json');
-	var userDB = low(userAdapter);
-
-	var user = userDB.get('user').find({ "userId": userId }).value();
-	var contactList = user.contactList
-	if (contactList === []) {
-		res.statusCode = 204;
-	} else {
-		for (var i = 0; i < contactList.length; i++) {
-			if (contactList[i].accountNumber === accountNumber) {
-				res.statusCode = 201;
-				res.json({ accountName: contactList[i].name });
-			}
-		}
-	}
-	res.statusCode = 204;
-	res.json({
-		msg: "No Data"
-	})
-})
-
+//API get History of transaction
 router.post('/getHistory', (req, res) => {
 
 	// {
@@ -193,6 +123,7 @@ router.post('/getHistory', (req, res) => {
 	}
 })
 
+//API Transfer
 router.post('/transferBalance', (req, res) => {
 	// {
 	// 	"userId":"",
@@ -249,6 +180,7 @@ router.post('/transferBalance', (req, res) => {
 
 })
 
+//API Del Account
 router.post('/deleteAccount', (req, res) => {
 	// {
 	// 	userId:"",
@@ -291,6 +223,7 @@ router.post('/deleteAccount', (req, res) => {
 	}
 })
 
+//API add new Contact
 router.post('/newContact', (req, res) => {
 	//userId
 	//contactName
@@ -321,23 +254,8 @@ router.post('/newContact', (req, res) => {
 		msg: "Save complete"
 	})
 })
-router.post('/checkUsername', (req, res) => {
-	var username = req.body.username;
-	var userAdapter = new fileSync('./data/userDB.json');
-	var userDB = low(userAdapter);
-	var user = userDB.get('user').find({ "username": username }).value();
-	if(user == null) {
-		res.statusCode = 200
-		res.json({
-			msg: "Accept"
-		})
-	} else {
-		res.statusCode = 204
-		res.json({
-			msg: "username is already exist"
-		})
-	}
-})
+
+// API create User
 router.post('/createUser', (req, res) => {
 	// {
 	//      "username": "quyquang",
@@ -363,6 +281,7 @@ router.post('/createUser', (req, res) => {
 	})
 })
 
+// API create Bank Account for User
 router.post('/createBankAccount', (req, res) => {
 	// {
 	// 	"username":
@@ -389,4 +308,130 @@ router.post('/createBankAccount', (req, res) => {
 	});
 
 })
+
+// API get name of Account
+router.post('/getAccountName', (req, res) => {
+	//AccountId
+	var accountNumber = req.body.accountNumber;
+
+	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankaccountAdapter);
+
+	var AccountDetail = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+	if (AccountDetail == null) {
+		res.statusCode = 204;
+		res.json({ msg: "No Data" });
+	} else {
+		res.statusCode = 201;
+		res.json({ accountName: AccountDetail.bankAccountName });
+	}
+})
+
+// API check username is exist
+router.post('/checkUsername', (req, res) => {
+	var username = req.body.username;
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+	var user = userDB.get('user').find({ "username": username }).value();
+	if(user == null) {
+		res.statusCode = 200
+		res.json({
+			msg: "Accept"
+		})
+	} else {
+		res.statusCode = 204
+		res.json({
+			msg: "username is already exist"
+		})
+	}
+})
+
+//API get contactName of Account
+router.post('/getContactName', (req, res) => {
+	//userId
+	//accountNumber
+	var userId = req.body.userId;
+	var accountNumber = req.body.accountNumber;
+
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+
+	var user = userDB.get('user').find({ "userId": userId }).value();
+	var contactList = user.contactList
+	if (contactList === []) {
+		res.statusCode = 204;
+	} else {
+		for (var i = 0; i < contactList.length; i++) {
+			if (contactList[i].accountNumber === accountNumber) {
+				res.statusCode = 201;
+				res.json({ accountName: contactList[i].name });
+			}
+		}
+	}
+	res.statusCode = 204;
+	res.json({
+		msg: "No Data"
+	})
+})
+//API check bankAccount
+router.post('/checkBankAccount', (req, res) => {
+	//bankAccountNumber
+	//accountNumber
+	var accountNumber = req.body.accountNumber;
+
+	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankaccountAdapter);
+
+	var account = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+	if (account == null) {
+		res.statusCode = 200;
+		res.json({
+			msg: "NOTEXIST"
+		}) 
+	} else {
+		if (account.isDisable == true) {
+			res.statusCode = 200;
+			res.json({
+				msg: "DISABLE"
+			}) 
+		} else {
+			res.statusCode = 200;
+			res.json({
+				msg: "OK"
+			})
+		}
+	}
+})
+
+router.post('/addFund', (req, res) => {
+	//bankAccountNumber
+	//accountNumber
+	var accountNumber = req.body.bankAccountNumber;
+	var money = req.body.money;
+
+	var bankaccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankaccountAdapter);
+
+	var account = bankAccountDB.get('bankAccountList').find({ "bankAccountId": accountNumber }).value();
+	if (account == null) {
+		res.statusCode = 200;
+		res.json({
+			msg: "FAIL"
+		}) 
+	} else {
+		if (account.isDisable == true) {
+			res.statusCode = 200;
+			res.json({
+				msg: "FAIL"
+			}) 
+		} else {
+			accountRepo.addRemain(accountNumber, money)
+			res.statusCode = 202
+			res.json({
+				msg: "OK"
+			}) 
+		}
+	}
+})
+
 module.exports = router;
