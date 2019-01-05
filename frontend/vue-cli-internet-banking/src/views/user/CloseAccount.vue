@@ -1,6 +1,6 @@
 <template>
     <div class="close-account">
-        <form @submit.prevent ="closeAccount">
+        <form @submit.prevent ="close">
             Choose transfer account
             <div class="form-group">
                 <template v-if="listAccount.length === 1">
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    closeAccount () {
+    close () {
       if (this.picked !== null) {
         transferBalance({
           userId: this.$store.state.currentUser.userId,
@@ -49,6 +49,21 @@ export default {
                 userId: this.$store.state.currentUser.userId,
                 bankAccountId: this.$store.state.currentAccount.bankAccountId
               })
+                .then(res => {
+                  console.log(res)
+                  if (res.status === 200) {
+                    if (res.data.msg === 'DELETED') {
+                      alert('This Account Is Deleted')
+                      this.$router.push('/user')
+                    }
+                    if (res.data.msg === 'FAILED') {
+                      alert('Something Wrongs')
+                    }
+                  }
+                })
+                .catch(errors => {
+                  alert('Something Wrongs')
+                })
             } else {
               if (res.status === 500) {
 

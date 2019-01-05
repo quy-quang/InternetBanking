@@ -12,7 +12,7 @@
       <tbody>
         <template v-if="!historyAccount.length">
           <tr>
-            <td colspan="4" class="text-center">No Bank Account Available</td>
+            <td colspan="4" class="text-center">This Account Do Not Have Any History Transaction</td>
           </tr>
         </template>
         <template v-else>

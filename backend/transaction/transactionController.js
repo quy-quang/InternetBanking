@@ -29,13 +29,13 @@ router.post('/', (req, res) => {
 
 		res.statusCode = 200;
 		res.json({
-		msg: 'transfer finished'
+		msg: 'DONE'
 		})
 	}
 	else {
-		res.statusCode = 500;
+		res.statusCode = 200;
 		res.json({
-		msg: 'not enough money'
+		msg: 'NOTENOUGH'
 		})
 	}
 })

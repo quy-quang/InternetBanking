@@ -49,7 +49,7 @@ export function closeAccount(credentials) {
     return new Promise((resolve, reject) => {
         axios.post(API_CLOSE_ACCOUNT, credentials)
             .then(response => {
-                resolve(response.data)
+                resolve(response)
             })
             .catch(error => {
                 reject(error)
