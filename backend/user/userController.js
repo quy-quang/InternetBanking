@@ -10,7 +10,6 @@ var low = require('lowdb'),
 const shortid = require('shortid');
 const secretKey = '6Lf4L4YUAAAAAKXFwMsq_0AK4B_3ABuy9JDVTT_d';
 
-
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
@@ -322,7 +321,23 @@ router.post('/newContact', (req, res) => {
 		msg: "Save complete"
 	})
 })
-
+router.post('/checkUsername', (req, res) => {
+	var username = req.body.username;
+	var userAdapter = new fileSync('./data/userDB.json');
+	var userDB = low(userAdapter);
+	var user = userDB.get('user').find({ "username": username }).value();
+	if(user == null) {
+		res.statusCode = 200
+		res.json({
+			msg: "Accept"
+		})
+	} else {
+		res.statusCode = 204
+		res.json({
+			msg: "username is already exist"
+		})
+	}
+})
 router.post('/createUser', (req, res) => {
 	// {
 	//      "username": "quyquang",
@@ -338,7 +353,8 @@ router.post('/createUser', (req, res) => {
 	userEntity["userId"] = shortid.generate();
 	userEntity["password"] = md5_pwd;
 	userEntity["type"] = NORMAL_USER;
-	userEntity["listAccount"] = []
+	userEntity["listAccount"] = [];
+	userEntity["contactList"] = [];
 	userDB.get('user').push(userEntity).write();
 
 	res.statusCode = 201;
@@ -347,26 +363,29 @@ router.post('/createUser', (req, res) => {
 	})
 })
 
-router.post('/createAccountForUser', (req, res) => {
+router.post('/createBankAccount', (req, res) => {
 	// {
-	// 	"userId":
+	// 	"username":
+	//  "name"
 	// }
 
-	var userId = req.body.userId;
+	var username = req.body.username;
+	var name =  req.body.name
 
 	var userAdapter = new fileSync('./data/userDB.json');
 	var userDB = low(userAdapter);
 
 
-	var name = userDB.get('user').find({ "userId": userId }).value().name;
+	//var name = userDB.get('user').find({ "username": username }).value().name;
 
 
 	var newAccount = accountRepo.createAccount(name);
-	userDB.get('user').find({ "userId": userId }).get('listAccount').push(newAccount).write();
+	userDB.get('user').find({ "username": username }).get('listAccount').push(newAccount).write();
 
 	res.statusCode = 201;
 	res.json({
-		msg: "Account created"
+		msg: "Account created",
+		accountId: newAccount
 	});
 
 })

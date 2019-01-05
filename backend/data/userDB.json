@@ -27,18 +27,31 @@
       "name": "Cao Ba Dong",
       "email": "dongcb@gmail.com",
       "type": 1,
-      "listAccount": [],
+      "listAccount": [
+        "1546577442559"
+      ],
       "contactList": [],
       "userId": "ulp9d6qYV"
     },
     {
-      "username": "quyquang2",
-      "password": "caf1a3dfb505ffed0d024130f58c5cfa",
-      "name": "Nguyen Phuoc Quy Quang 2",
-      "email": "quyquang2@gmail.com",
+      "username": "employee",
+      "password": "202cb962ac59075b964b07152d234b70",
+      "name": "Employee",
+      "email": "caobadong19(@gmail.com",
       "type": 2,
       "listAccount": [],
-      "userId": "TgYYHH0vo"
+      "contactList": [],
+      "userId": "ukl7e9GH0"
+    },
+    {
+      "username": "tamdinh",
+      "password": "ebbe9254b61c440118b16cb165e10f97",
+      "name": "Tôn Thất Tâm Định",
+      "email": "tonthattamdinh@gmail.com",
+      "userId": "25nui3OJL",
+      "type": 1,
+      "listAccount": [],
+      "contactList": []
     }
   ]
 }

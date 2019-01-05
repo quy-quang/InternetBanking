@@ -20,6 +20,7 @@
     "morgan": "^1.9.1",
     "rand-token": "^0.4.0",
     "request": "^2.88.0",
-    "shortid": "^2.2.14"
+    "shortid": "^2.2.14",
+    "unique-number": "^2.0.1"
   }
 }

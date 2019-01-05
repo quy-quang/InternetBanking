@@ -14,6 +14,11 @@
       "bankAccountId": "111",
       "remain": 100000,
       "bankAccountName": "Nguyễn Công Phượng"
+    },
+    {
+      "bankAccountId": "1546577442559",
+      "remain": 0,
+      "bankAccountName": "Cao Bá Đông"
     }
   ]
 }

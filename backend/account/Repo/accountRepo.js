@@ -2,6 +2,8 @@ var low = require('lowdb'),
 	fileSync = require('lowdb/adapters/FileSync')
 
 const shortid = require('shortid');
+const UniqueNumber = require('unique-number')
+var uniqueNumber = new UniqueNumber(true);
 
 exports.getRemain = (bankAccountId) => {
    	// {
@@ -37,7 +39,7 @@ exports.createAccount = (bankAccountName) => {
 	var bankAccountDB = low(bankAccountAdapter);
 
 	var bankAccount={};
-	bankAccount["bankAccountId"] = shortid.generate();
+	bankAccount["bankAccountId"] = uniqueNumber.generate()+'';
 	bankAccount["remain"] = 0;
 	bankAccount["bankAccountName"] = bankAccountName;
 	bankAccountDB.get('bankAccountList').push(bankAccount).write();
