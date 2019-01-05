@@ -21,6 +21,10 @@
         {
           "name": "Phượng Cú Lừa",
           "accountNumber": "111"
+        },
+        {
+          "name": "Kuroky",
+          "accountNumber": "1546671441117"
         }
       ],
       "userId": "oddkTDlh1"
@@ -79,6 +83,18 @@
       "userId": "Ooo1jWC68",
       "type": 1,
       "listAccount": [],
+      "contactList": []
+    },
+    {
+      "username": "miracle-",
+      "password": "ebbe9254b61c440118b16cb165e10f97",
+      "name": "Amer Al-Barkawi",
+      "email": "miracle@gmail.com",
+      "userId": "ABlC7KoNs",
+      "type": 1,
+      "listAccount": [
+        "1546661180238"
+      ],
       "contactList": []
     }
   ]

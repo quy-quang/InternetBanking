@@ -135,15 +135,21 @@ export default {
           amount: this.transfer.money
         })
           .then(res => {
-            if (res.status === 500) {
-              alert('Transfer that bai')
-            } else {
-              if (res.status === 200) {
+            if (res.status === 200) {
+              if (res.data.msg === 'DONE') {
                 alert('Transfer thanh cong')
                 // Chuyển xong nhảy qua trang OTP
                 this.$router.push('/')
               }
+              if (res.data.msg === 'NOTENOUGH') {
+                this.errors = {
+                  Money: ['This Account Not Enough Money']
+                }
+              }
             }
+          })
+          .catch(errors => {
+            alert('Something wrongs')
           })
       }
     },

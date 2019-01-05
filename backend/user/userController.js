@@ -57,7 +57,6 @@ router.post('/getAccountList', (req, res) => {
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
 
-
 	res.statusCode = 201;
 	res.json({ accountList });
 })
@@ -193,9 +192,12 @@ router.post('/deleteAccount', (req, res) => {
 
 	var userAdapter = new fileSync('./data/userDB.json');
 	var userDB = low(userAdapter);
-
+	var bankAccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankAccountAdapter);
 
 	var accountList = userDB.get('user').find({ "userId": userId }).value().listAccount;
+
+	bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).assign({isDisable: true}).write()
 
 	if (accountList.indexOf(bankAccountId) >= 0) {
 
@@ -206,14 +208,13 @@ router.post('/deleteAccount', (req, res) => {
 			res.statusCode = 200;
 
 			res.json({
-				"msg": "deleted"
+				"msg": "DELETED"
 			})
 		}
 		else {
-			res.statusCode = 404;
-
+			res.statusCode = 200;
 			res.json({
-				"msg": "cannot delete account"
+				"msg": "FAILED"
 			})
 		}
 	}

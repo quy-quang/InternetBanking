@@ -135,6 +135,7 @@
     },
     {
       "sendAcc": "456",
+<<<<<<< HEAD
       "recAcc": "123",
       "message": "nhan tien ne",
       "amount": 500,
