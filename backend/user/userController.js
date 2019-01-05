@@ -11,6 +11,8 @@ const shortid = require('shortid');
 var userAdapter = new fileSync('./data/userDB.json');
 var userDB = low(userAdapter);
 
+
+
 const NORMAL_USER = 1,
 	EMPLOYER = 2
 
@@ -432,6 +434,37 @@ router.post('/addFund', (req, res) => {
 				msg: "OK"
 			}) 
 		}
+	}
+})
+
+router.post('/sendEmail', (req, res) => {
+	// {
+	// 	"email":
+	// }
+
+	
+})
+
+
+router.post('/verifyOTP', (req, res) => {
+	// {
+	// 	"OTP":
+	// }
+	var OTP = req.body.OTP;
+	const isValid = otplib.authenticator.check(OTP, secret);
+
+	if (OTP != undefined) res.statusCode = 500;
+	else res.statusCode = 200;
+	
+	if (isValid) {
+		res.json({
+			msg:"Correct OTP"
+		})
+	}
+	else{
+		res.json({
+			msg:"Wrong OTP"
+		})
 	}
 })
 

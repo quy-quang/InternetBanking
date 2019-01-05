@@ -47,7 +47,9 @@
       "name": "Employee",
       "email": "caobadong19(@gmail.com",
       "type": 2,
-      "listAccount": [],
+      "listAccount": [
+        "123"
+      ],
       "contactList": [],
       "userId": "ukl7e9GH0"
     },

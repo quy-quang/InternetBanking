@@ -70,3 +70,11 @@ exports.updateRefreshToken = (userId, rfToken) => {
       console.log('ko co ')  
     } 
 }
+
+exports.getEntityFromBankAccountId = (bankAccountId) => {
+    var userAdapter = new fileSync('./data/userDB.json');
+    var userDB = low(userAdapter);
+
+    return userDB.get('user').find(user => user.listAccount.indexOf(bankAccountId) >= 0).value();
+
+}
