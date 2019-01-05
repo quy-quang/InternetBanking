@@ -7,37 +7,79 @@ var low = require('lowdb'),
 const shortid = require('shortid');
 const accountRepo = require('../account/Repo/accountRepo.js')
 const transactionRepo = require('./Repo/transactionRepo')
+
+
+
+const PENDING = 0;
+const DONE = 1;
+
 // {
 // 	sendAcc:
 // 	recAcc:
 // 	message:
 // 	amount:
 // }
-router.post('/', (req, res) => {
+router.post('/addPendingTransaction', (req, res) => {
 	var transactionEntity = req.body;
 
-	var sendAccRemain = accountRepo.getRemain(transactionEntity.sendAcc);
-	console.log(sendAccRemain)
-	if (sendAccRemain >= transactionEntity.amount){
+	try{
+		var sendAccRemain = accountRepo.getRemain(transactionEntity.sendAcc);
+		console.log(sendAccRemain)
+		if (sendAccRemain >= transactionEntity.amount){
+
+			var transaction = transactionRepo.addTransaction(transactionEntity, PENDING);
+
+			
+			transactionRepo.sendEmail(transactionEntity["sendAcc"]);
+
+			res.statusCode = 200;
+			res.json({
+				transaction
+			})
+		}
+		else {
+			res.statusCode = 200;
+			res.json({
+			msg: 'not enough money'
+			})
+		}
+
+	}
+	catch(error){
+		res.statusCode = 500;
+		res.json({
+			error
+		})
+	}
+})
+
+router.post('/verifyOTPAndExcuteTransaction', (req, res) => {
+	// {
+	// 	"transactionId":
+	// 	"OTP":
+	// }
+	var isValid = transactionRepo.checkOTP(req.body.OTP);
+	if (isValid){
+		var transactionEntity = transactionRepo.getEntityFromTransactionId(req.body.transactionId)
+		transactionEntity["status"] = null;
 		//thuc hien cong tien
+
 		accountRepo.addRemain(transactionEntity.recAcc, transactionEntity.amount)
 		accountRepo.addRemain(transactionEntity.sendAcc, -transactionEntity.amount)
 
 		//add vao database transactionDB
 
-		transactionRepo.addTransaction(transactionEntity)
-
+		transactionRepo.addTransaction(transactionEntity, DONE)
 		res.statusCode = 200;
 		res.json({
-		msg: 'transfer finished'
+			msg:"transfer finish"
 		})
 	}
-	else {
-		res.statusCode = 500;
+	else{
 		res.json({
-		msg: 'not enough money'
+			msg: 'Wrong OTP'
 		})
 	}
-})
 
+})
 module.exports = (router);

@@ -22,9 +22,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/', loginCtrl);
-app.use('/user', verifyAccessToken, userCtrl);
+app.use('/user', userCtrl);
+// app.use('/user', verifyAccessToken, userCtrl);
 app.use('/account', verifyAccessToken, accountCtrl);
-app.use('/transaction', verifyAccessToken, transactionCtrl);
+// app.use('/transaction', verifyAccessToken, transactionCtrl);
+app.use('/transaction', transactionCtrl);
+
 
 
 
