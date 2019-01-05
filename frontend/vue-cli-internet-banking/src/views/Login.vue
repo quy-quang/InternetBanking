@@ -42,7 +42,7 @@
 
 <script>
 import validate from 'validate.js'
-import { login } from '../helper/auth'
+import { login, verifyCaptcha } from '../helper/auth'
 export default {
   name: 'login',
   data () {
@@ -63,34 +63,34 @@ export default {
       if (errors) {
         this.errors = errors
       } else {
-        this.$store.dispatch('login')
-        login({
-          username: this.form.username,
-          password: this.form.password
+        verifyCaptcha({
+          token: this.form.token
         })
           .then(res => {
-            if (res.status === 201) {
-              this.$store.commit('loginSuccess', res.data)
-              this.$router.push({ path: '/' })
+            if (res.status === 200) {
+              this.$store.dispatch('login')
+              login({
+                username: this.form.username,
+                password: this.form.password
+              })
+                .then(res => {
+                  if (res.status === 201) {
+                    this.$store.commit('loginSuccess', res.data)
+                    this.$router.push({ path: '/' })
+                  }
+                })
+                .catch(error => {
+                  this.$store.commit('loginFailed', { error })
+                  this.callback()
+                  this.errors = {
+                    'Login Fail': ['Username or Password is incorrect']
+                  }
+                })
             }
           })
-          .catch(error => {
-            this.$store.commit('loginFailed', { error })
-            // grecaptcha.reset()
-            this.errors = {
-              'Login Fail': ['Username or Password is incorrect']
-            }
+          .catch(errors => {
+            console.log(errors)
           })
-        // verifyCaptcha({
-        //   token: this.form.token
-        // })
-        //   .then(res => {
-        //     if (res.status === 200) {
-        //     }
-        //   })
-        //   .catch(errors => {
-        //     console.log(errors)
-        //   })
       }
     },
     callback () {
@@ -121,7 +121,7 @@ export default {
   },
   mounted () {
     // eslint-disable-next-line
-    //grecaptcha.ready(this.callback)
+    grecaptcha.ready(this.callback)
   }
 }
 </script>

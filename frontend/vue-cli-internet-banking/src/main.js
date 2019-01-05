@@ -59,7 +59,7 @@ function getAccessToken () {
 
 Axios.interceptors.request.use(async function (config) {
   // If not one of these specific pages that doesn't need a token, use method to get the current token or request a new one.  Otherwise, use current token (possibly none)
-  if (!config.url.includes('login') && !config.url.includes('name')) {
+  if (!config.url.includes('login') && !config.url.includes('verify')) {
     config.headers['x-access-token'] = await getAccessToken()
   }
   return config
