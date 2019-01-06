@@ -146,6 +146,11 @@ export default {
                   Money: ['This Account Not Enough Money']
                 }
               }
+              if (res.data.msg === 'NOT EXIST') {
+                this.errors = {
+                  Account: ['This Account is not exist']
+                }
+              }
             }
           })
           .catch(errors => {

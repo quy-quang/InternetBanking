@@ -13,12 +13,12 @@ exports.getRemain = (bankAccountId) => {
 	var bankAccountAdapter = new fileSync('./data/bankAccountDB.json');
 	var bankAccountDB = low(bankAccountAdapter);
 
-	console.log(bankAccountDB.get('bankAccountList').value());
+	// console.log(bankAccountDB.get('bankAccountList').value());
 
-	console.log(bankAccountId);
+	// console.log(bankAccountId);
 	var bankAccountRemainObj =
 	 bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).value();
-	 console.log(bankAccountRemainObj)
+	 // console.log(bankAccountRemainObj)
 	var bankAccountRemain = bankAccountRemainObj.remain;
 
 	return bankAccountRemain
@@ -47,3 +47,18 @@ exports.createAccount = (bankAccountName) => {
 	return bankAccount["bankAccountId"];
 }
 
+
+exports.getAccEntityFromBankAccountId = (bankAccountId) => {
+	var bankAccountAdapter = new fileSync('./data/bankAccountDB.json');
+	var bankAccountDB = low(bankAccountAdapter);
+
+	// console.log(bankAccountDB.get('bankAccountList').value());
+
+	// console.log(bankAccountId);
+	var bankAccountObj =
+	 bankAccountDB.get('bankAccountList').find({ "bankAccountId": bankAccountId }).value();
+	 // console.log(bankAccountRemainObj)
+	// var bankAccountRemain = bankAccountRemainObj.remain;
+
+	return bankAccountObj
+}

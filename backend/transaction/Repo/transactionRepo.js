@@ -8,6 +8,8 @@ const shortid = require('shortid');
 const accountRepo = require('../../account/Repo/accountRepo')
 const userRepo = require('../../user/Repo/authRepo')
 
+const PENDING = 0;
+const DONE = 1;
 
 
 var nodemailer = require('nodemailer');
@@ -33,7 +35,7 @@ exports.getRelatedTransaction =(bankAccountId) => {
 	var transactionDB = low(transactionAdapter);
     var listRelatedTransaction = 
     	transactionDB.get('transaction').filter(
-    		trans => trans.sendAcc == bankAccountId || trans.recAcc == bankAccountId).value();
+    		trans => (trans.sendAcc == bankAccountId || trans.recAcc == bankAccountId) && trans.status == DONE ).value();
     return listRelatedTransaction
 }
 

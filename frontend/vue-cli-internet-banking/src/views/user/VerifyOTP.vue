@@ -1,9 +1,9 @@
 <template>
-  <div class="verifyOTP">
-    <form @submit.prevent ="verify">
+  <div class="verify">
+    <form @submit.prevent ="verifyotp">
       <div class="form-group">
         <label for="OTP">OTP</label>
-        <input type="text" name="OTP" id="OTP" class="form-control" v-model="otp">
+        <input type="number" name="OTP" id="OTP" class="form-control" v-model="otp">
       </div>
       <button type="submit" class="btn btn-primary">Transfer</button>
     </form>
@@ -28,11 +28,11 @@ export default {
       errors: null
     }
   },
-  method: {
-    verify () {
+  methods: {
+    verifyotp () {
       this.errors = null
       const constraints = this.getConstraints()
-      const errors = validate(this.$data.transfer, constraints)
+      const errors = validate(this.$data, constraints)
       if (errors) {
         this.errors = errors
       } else {
@@ -41,7 +41,15 @@ export default {
           transactionId: this.$store.state.transactionId
         })
           .then(res => {
-
+            if (res.status === 200){
+              if(res.data.msg === 'DONE') {
+                alert('Success')
+                this.$router.push('/user')
+              }
+              if(res.data.msg === 'FAILED') {
+                alert('Wrongs OTP')
+              }
+            }
           })
           .catch(error => {
             console.log(error)
@@ -53,11 +61,7 @@ export default {
       return {
         otp: {
           presence: true,
-          numericality: true,
-          length: {
-            minimum: 3,
-            message: 'must be at least 3 numbers long'
-          }
+          numericality: true
         }
       }
     }

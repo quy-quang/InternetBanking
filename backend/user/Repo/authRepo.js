@@ -78,3 +78,4 @@ exports.getEntityFromBankAccountId = (bankAccountId) => {
     return userDB.get('user').find(user => user.listAccount.indexOf(bankAccountId) >= 0).value();
 
 }
+

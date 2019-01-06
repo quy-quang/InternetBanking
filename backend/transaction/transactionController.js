@@ -23,25 +23,40 @@ router.post('/addPendingTransaction', (req, res) => {
 	var transactionEntity = req.body;
 
 	try{
+		// console.log(transactionEntity)
+		var recAccEntity = accountRepo.getAccEntityFromBankAccountId(transactionEntity.recAcc);
+		// console.log(recAccEntity);
 		var sendAccRemain = accountRepo.getRemain(transactionEntity.sendAcc);
-		if (sendAccRemain >= transactionEntity.amount){
-
-			var transaction = transactionRepo.addTransaction(transactionEntity, PENDING);
-
-			transactionRepo.sendEmail(transactionEntity["sendAcc"]);
-
-			res.statusCode = 200;
+		var isDisableRecAcc = recAccEntity.isDisable;
+		// console.log(sendAccRemain)
+		// console.log(isDisableRecAcc)
+		if (isDisableRecAcc){
+			res.status = 200;
 			res.json({
-				msg: "ACCEPTED",
-				transactionId: transaction.transactionId
+				msg:"NOT EXIST"
 			})
 		}
-		else {
-			res.statusCode = 200;
-			res.json({
-				msg: 'NOTENOUGH'
-			})
+		else{
+			if (sendAccRemain >= transactionEntity.amount){
+
+				var transaction = transactionRepo.addTransaction(transactionEntity, PENDING);
+
+				transactionRepo.sendEmail(transactionEntity["sendAcc"]);
+
+				res.statusCode = 200;
+				res.json({
+					msg: "ACCEPTED",
+					transactionId: transaction.transactionId
+				})
+			}
+			else {
+				res.statusCode = 200;
+				res.json({
+					msg: 'NOTENOUGH'
+				})
+			}	
 		}
+		
 
 	}
 	catch(error){
@@ -71,12 +86,13 @@ router.post('/verifyOTPAndExcuteTransaction', (req, res) => {
 		transactionRepo.addTransaction(transactionEntity, DONE)
 		res.statusCode = 200;
 		res.json({
-			msg:"transfer finish"
+			msg:"DONE"
 		})
 	}
 	else{
+		res.statusCode = 200;
 		res.json({
-			msg: 'Wrong OTP'
+			msg: 'FAILED'
 		})
 	}
 
