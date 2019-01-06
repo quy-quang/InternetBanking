@@ -6,8 +6,9 @@ const API_GET_CONTACT_NAME = 'http://localhost:3000/user/getContactName'
 const API_GET_ACCOUNT_HISTORY = 'http://localhost:3000/user/getHistory'
 const API_CLOSE_ACCOUNT = 'http://localhost:3000/user/deleteAccount'
 const API_TRANSFER_BALANCE = 'http://localhost:3000/user/transferBalance'
-const API_TRANSFER_MONEY = 'http://localhost:3000/transaction'
+const API_TRANSFER_MONEY = 'http://localhost:3000/transaction/addPendingTransaction'
 const API_NEW_CONTACT = 'http://localhost:3000/user/newContact'
+const API_VERIFY_OTP = 'http://localhost:3000/transaction/verifyOTPAndExcuteTransaction'
 import axios from 'axios'
 export function getListAccount (credentials) {
     return new Promise((resolve, reject) => {
@@ -108,6 +109,18 @@ export function transferMoney(credentials) {
 export function newContact(credentials) {
     return new Promise((resolve, reject) => {
         axios.post(API_NEW_CONTACT, credentials)
+            .then(response => {
+                resolve(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
+export function verifyOTP(credentials) {
+    return new Promise((resolve, reject) => {
+        axios.post(API_VERIFY_OTP, credentials)
             .then(response => {
                 resolve(response)
             })

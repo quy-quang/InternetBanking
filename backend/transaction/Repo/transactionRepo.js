@@ -42,7 +42,7 @@ exports.sendEmail = (sendAcc) => {
 	var recEmail = userRepo.getEntityFromBankAccountId(sendAcc).email; 
 
 	const OTP = otplib.authenticator.generate(secret);
-	// console.log(OTP);
+	 console.log(recEmail);
 	// console.log('check otp'+otplib.authenticator.check(OTP, secret));
 
 	var transporter = nodemailer.createTransport({
@@ -60,7 +60,7 @@ exports.sendEmail = (sendAcc) => {
 	  text: 'OTP: ' + OTP
 	};
 
-	transporter.sendMail(mailOptions, function(error, info){
+	transporter.sendMail(mailOptions, function(error, info) {
 	  if (error) {
 	    console.log(error);
 	    return null;
@@ -71,7 +71,6 @@ exports.sendEmail = (sendAcc) => {
 }
 
 exports.checkOTP = (OTP) => {
-	// console.log(OTP);
 	return otplib.authenticator.check(OTP, secret);
 }
 

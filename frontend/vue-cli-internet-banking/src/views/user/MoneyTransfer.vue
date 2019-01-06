@@ -136,10 +136,10 @@ export default {
         })
           .then(res => {
             if (res.status === 200) {
-              if (res.data.msg === 'DONE') {
-                alert('Transfer thanh cong')
+              if (res.data.msg === 'ACCEPTED') {
                 // Chuyển xong nhảy qua trang OTP
-                this.$router.push('/')
+                this.$store.commit('transactionid', res.data.transactionId)
+                this.$router.push('/user/verifyotp')
               }
               if (res.data.msg === 'NOTENOUGH') {
                 this.errors = {
@@ -149,6 +149,7 @@ export default {
             }
           })
           .catch(errors => {
+            console.log(errors)
             alert('Something wrongs')
           })
       }

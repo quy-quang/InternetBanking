@@ -12,6 +12,7 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "lodash": "^4.17.11",
     "register-service-worker": "^1.5.2",
+    "util": "^0.11.1",
     "validate": "^4.5.1",
     "validate.js": "^0.12.0",
     "vue": "^2.5.17",

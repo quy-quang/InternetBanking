@@ -24,23 +24,22 @@ router.post('/addPendingTransaction', (req, res) => {
 
 	try{
 		var sendAccRemain = accountRepo.getRemain(transactionEntity.sendAcc);
-		console.log(sendAccRemain)
 		if (sendAccRemain >= transactionEntity.amount){
 
 			var transaction = transactionRepo.addTransaction(transactionEntity, PENDING);
 
-			
 			transactionRepo.sendEmail(transactionEntity["sendAcc"]);
 
 			res.statusCode = 200;
 			res.json({
-				transaction
+				msg: "ACCEPTED",
+				transactionId: transaction.transactionId
 			})
 		}
 		else {
 			res.statusCode = 200;
 			res.json({
-			msg: 'not enough money'
+				msg: 'NOTENOUGH'
 			})
 		}
 

@@ -74,7 +74,7 @@ export default {
                 password: this.form.password
               })
                 .then(res => {
-                  if (res.status === 201) {
+                  if (res.status === 200) {
                     this.$store.commit('loginSuccess', res.data)
                     this.$router.push({ path: '/' })
                   }
@@ -119,7 +119,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     // eslint-disable-next-line
     grecaptcha.ready(this.callback)
   }
