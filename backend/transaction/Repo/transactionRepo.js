@@ -40,12 +40,15 @@ exports.getRelatedTransaction =(bankAccountId) => {
 }
 
 exports.sendEmail = (sendAcc) => {
+	var userEntity = userRepo.getEntityFromBankAccountId(sendAcc);
 
-	var recEmail = userRepo.getEntityFromBankAccountId(sendAcc).email; 
+	var recEmail = userEntity.email; 
 
 	const OTP = otplib.authenticator.generate(secret);
 	 console.log(recEmail);
-	// console.log('check otp'+otplib.authenticator.check(OTP, secret));
+	console.log('check otp'+otplib.authenticator.check('123', secret));
+	console.log('check otp'+otplib.authenticator.check(OTP, secret));
+
 
 	var transporter = nodemailer.createTransport({
 	  service: 'Gmail',
@@ -59,7 +62,12 @@ exports.sendEmail = (sendAcc) => {
 	  from: 'anonymous@gmail.com',
 	  to: recEmail,
 	  subject: 'OTP verified internet banking',
-	  text: 'OTP: ' + OTP
+	  html: `<p>
+	  	<div>Dear ${userEntity.name},</div>
+	  	<div>You have selected ${userEntity.email} as your default email at internet banking verification page:</div>
+	  	<strong><h1>${OTP}</h1></strong>
+	  	<div>This code will expire 30 seconds after this email was sent</div>
+	  </p>`
 	};
 
 	transporter.sendMail(mailOptions, function(error, info) {
